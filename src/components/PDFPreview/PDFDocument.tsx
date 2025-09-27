@@ -251,7 +251,7 @@ function useOptimizedImage(
       }
       try {
         // Handle both relative and absolute URLs
-        const imageSrc = url.startsWith('http') ? url : url;
+        const imageSrc = url.startsWith("http") ? url : url;
         const img = new window.Image();
         img.crossOrigin = "Anonymous";
         img.src = imageSrc;
@@ -265,14 +265,14 @@ function useOptimizedImage(
         const scale = Math.min(maxWidth / width, maxHeight / height);
         width = Math.round(width * scale);
         height = Math.round(height * scale);
-        
+
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext("2d");
         if (ctx) {
           // Use better image rendering
           ctx.imageSmoothingEnabled = true;
-          ctx.imageSmoothingQuality = 'high';
+          ctx.imageSmoothingQuality = "high";
           ctx.drawImage(img, 0, 0, width, height);
           const dataUrl = canvas.toDataURL("image/jpeg", quality);
           if (isMounted) setOptimized(dataUrl);
@@ -418,8 +418,8 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
     selectedLocations[0]?.toLowerCase() === "coorg";
 
   // Determine cover image based on itinerary selection
-  const selectedLocationsLower = selectedLocations.map(
-    (l) => (l || "").toLowerCase()
+  const selectedLocationsLower = selectedLocations.map((l) =>
+    (l || "").toLowerCase()
   );
   const coverByLocation: Record<string, string> = {
     wayanad: "/images/waya1.jpg",
@@ -450,8 +450,6 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
   const optimizedInstagram = useOptimizedImage("/instagram.png", 40, 40, 0.5);
   const optimizedFacebook = useOptimizedImage("/facebook.png", 40, 40, 0.5);
   const optimizedYoutube = useOptimizedImage("/youtube.png", 40, 40, 0.5);
-
-
 
   const getFinalCostString = (finalCostData: any, pkg: any) => {
     let amount = 0;
@@ -974,7 +972,10 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                 src={optimizedFood}
                 style={{ width: 60, height: 60, marginRight: 24 }}
               />
-              <Image src={optimizedTelescope} style={{ width: 60, height: 60 }} />
+              <Image
+                src={optimizedTelescope}
+                style={{ width: 60, height: 60 }}
+              />
             </View>
 
             {/* Exclusions Section */}
