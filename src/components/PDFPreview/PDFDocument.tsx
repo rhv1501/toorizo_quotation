@@ -270,16 +270,36 @@ function useOptimizedImage(
         canvas.height = height;
         const ctx = canvas.getContext("2d");
         if (ctx) {
-          // Use better image rendering
+          // Use better image rendering for sharp details
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = "high";
-          ctx.drawImage(img, 0, 0, width, height);
-          const dataUrl = canvas.toDataURL("image/jpeg", quality);
-          if (isMounted) setOptimized(dataUrl);
+
+          // Check if image is PNG (likely has transparency) to preserve it
+          const isPng = url.toLowerCase().includes(".png");
+          const isCoverImage = maxWidth >= 600; // Cover images have larger dimensions
+
+          if (isPng) {
+            // For PNG files, preserve transparency by using PNG format
+            ctx.clearRect(0, 0, width, height); // Clear canvas to transparent
+            ctx.drawImage(img, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL("image/png", quality);
+            if (isMounted) setOptimized(dataUrl);
+          } else if (isCoverImage) {
+            // For cover images, use high-quality JPEG for better compatibility
+            ctx.drawImage(img, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL("image/jpeg", Math.min(quality + 0.3, 0.9));
+            if (isMounted) setOptimized(dataUrl);
+          } else {
+            // For other formats, use JPEG compression
+            ctx.drawImage(img, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL("image/jpeg", quality);
+            if (isMounted) setOptimized(dataUrl);
+          }
         } else {
           if (isMounted) setOptimized(url);
         }
-      } catch {
+      } catch (error) {
+        console.warn('Image optimization failed for:', url, error);
         if (isMounted) setOptimized(url);
       }
     }
@@ -436,8 +456,9 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
   }
 
   // Optimize all images used in the PDF
-  const optimizedCoverImage = useOptimizedImage(coverImageSrc, 600, 800, 0.5);
-  const optimizedLogo = useOptimizedImage("/logo.png", 80, 40, 0.6);
+  // Temporarily disable cover image optimization for debugging
+  const optimizedCoverImage = coverImageSrc; // useOptimizedImage(coverImageSrc, 700, 900, 0.8);
+  const optimizedLogo = useOptimizedImage("/logo.png", 120, 60, 0.8); // Higher quality for logo
   const optimizedTelescope = useOptimizedImage("/telescope.png", 60, 60, 0.4);
   const optimizedLocation = useOptimizedImage("/location.png", 60, 60, 0.4);
   const optimizedFood = useOptimizedImage("/food.png", 60, 60, 0.4);
@@ -484,7 +505,7 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
     <Document>
       {/* Cover Page */}
       <Page size="A4" style={styles.coverPage}>
-        <Image src={optimizedCoverImage} style={styles.posterImage} />
+        <Image src={optimizedCoverImage || coverImageSrc} style={styles.posterImage} />
       </Page>
 
       {/* Company Info Page */}
