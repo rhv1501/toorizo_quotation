@@ -108,9 +108,9 @@ const CostingForm: React.FC = () => {
   // Helper to get hotels for a location and package type
   function getHotelsFor(location: string, packageType: string) {
     // Alias Chikmagalur and Kodaikanal to Ooty for pricing
-    let targetLocation = (location || '').toUpperCase();
-    if (targetLocation === 'CHIKMAGALUR' || targetLocation === 'KODAIKANAL') {
-      targetLocation = 'OOTY';
+    let targetLocation = (location || "").toUpperCase();
+    if (targetLocation === "CHIKMAGALUR" || targetLocation === "KODAIKANAL") {
+      targetLocation = "OOTY";
     }
     return hotels.filter(
       (h) =>
@@ -306,7 +306,13 @@ const CostingForm: React.FC = () => {
     ["standard", "comfort", "luxury"].forEach((pkgKey) => {
       const key = pkgKey as "standard" | "comfort" | "luxury";
       // Skip manual entry for these transport types
-      const manualEntryTypes = ["VAN", "12 SEATER", "21 SEATER", "32 SEATER", "50 SEATER"];
+      const manualEntryTypes = [
+        "VAN",
+        "12 SEATER",
+        "21 SEATER",
+        "32 SEATER",
+        "50 SEATER",
+      ];
       if (manualEntryTypes.includes(transportType.toUpperCase())) return; // manual entry required
       if (manualTravelCost[key]) return; // skip if manually edited
       const nightsStr = getNightsDaysStr(daysFormat);

@@ -36,9 +36,11 @@ const HotelCostingForm: React.FC = () => {
   const customerRequirements = watch("customerRequirements");
 
   // Get unique selected locations from itinerary
-  const selectedLocations = Array.from(
-    new Set((itinerary || []).map((d: any) => d.location))
-  );
+  const selectedLocations = React.useMemo(() => {
+    return Array.from(
+      new Set((itinerary || []).map((d: any) => d.location))
+    );
+  }, [itinerary]);
 
   // Get number of nights from clientDetails.daysFormat (e.g., "3 Nights / 4 Days")
   const totalNights = (() => {
@@ -75,7 +77,7 @@ const HotelCostingForm: React.FC = () => {
   }
 
   // Helper to calculate average hotel cost for a package type and specific location
-  function getLocationAverageHotelCost(location: string, packageType: string, nights: number): number {
+  const getLocationAverageHotelCost = React.useCallback((location: string, packageType: string, nights: number): number => {
     const packageKey = (packageType || '').toLowerCase() as 'standard' | 'comfort' | 'luxury';
     const rooms = totalRoomCount || 0;
     if (rooms === 0 || nights <= 0) return 0;
@@ -94,10 +96,10 @@ const HotelCostingForm: React.FC = () => {
     const nightlyPremium = packageNightlyPremium[packageKey] ?? 0;
     const adjustedAverage = average + nightlyPremium;
     return Math.round(adjustedAverage * rooms * nights);
-  }
+  }, [totalRoomCount]);
 
   // Helper to calculate total average cost across all selected locations (excluding skipped)
-  function getTotalAverageHotelCost(packageType: string): number {
+  const getTotalAverageHotelCost = React.useCallback((packageType: string): number => {
     let totalCost = 0;
     
     selectedLocations.forEach((location) => {
@@ -112,7 +114,7 @@ const HotelCostingForm: React.FC = () => {
     });
     
     return totalCost;
-  }
+  }, [selectedLocations, hotelCostingDetails?.skippedLocations, hotelCostingDetails?.locationDays, totalNights, getLocationAverageHotelCost]);
 
   // Set hotel cost automatically when locations or nights change
   React.useEffect(() => {
@@ -125,7 +127,7 @@ const HotelCostingForm: React.FC = () => {
         setValue(`hotelCostingDetails.${key}.packageType` as any, `${key.charAt(0).toUpperCase() + key.slice(1)} Package`);
       });
     }
-  }, [selectedLocations, totalNights, hotelCostingDetails?.locationDays, setValue, customerRequirements]);
+  }, [selectedLocations, totalNights, setValue, customerRequirements?.type, getTotalAverageHotelCost]);
 
   // Watch individual package values for final cost calculation
   const standardBaseCost = watch("hotelCostingDetails.standard.baseCost");
