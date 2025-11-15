@@ -4,13 +4,12 @@ import { QuotationData } from "../../types";
 import { FormField } from "../ui/FormField";
 import { useAuth } from "../../context/AuthContext";
 import RoleBasedField from "../RoleBasedField";
-import { 
-  startLocations, 
-  endLocations, 
-  vehicleTypes, 
-  getTravelCostData, 
+import {
+  startLocations,
+  endLocations,
+  vehicleTypes,
+  getTravelCostData,
   convertDaysFormatToNightsDay,
-  TravelCostEntry 
 } from "../../data/travelCosts";
 
 const TravelCostingForm: React.FC = () => {
@@ -35,10 +34,11 @@ const TravelCostingForm: React.FC = () => {
   const marginPercentage = watch("travelCostingDetails.marginPercentage");
 
   // Check if travel costing should be disabled
-  const isDisabled = customerRequirements?.type === 'rooms_only';
+  const isDisabled = customerRequirements?.type === "rooms_only";
 
   // State to track manual mode for locations
-  const [isStartLocationManual, setIsStartLocationManual] = React.useState(false);
+  const [isStartLocationManual, setIsStartLocationManual] =
+    React.useState(false);
   const [isEndLocationManual, setIsEndLocationManual] = React.useState(false);
 
   // Check if current locations are custom (not in predefined lists)
@@ -56,15 +56,26 @@ const TravelCostingForm: React.FC = () => {
 
   // Get current travel data to show additional info
   const currentTravelData = React.useMemo(() => {
-    if (!startLocation || !endLocation || !transportType || !daysFormat) return null;
-    
+    if (!startLocation || !endLocation || !transportType || !daysFormat)
+      return null;
+
     const nightsDaysFormat = convertDaysFormatToNightsDay(daysFormat);
-    return getTravelCostData(startLocation, endLocation, transportType, nightsDaysFormat);
+    return getTravelCostData(
+      startLocation,
+      endLocation,
+      transportType,
+      nightsDaysFormat
+    );
   }, [startLocation, endLocation, transportType, daysFormat]);
 
   // Check if transport type requires manual entry
   const requiresManualEntry = React.useMemo(() => {
-    const manualEntryTypes = ["12 SEATER", "21 SEATER", "32 SEATER", "50 SEATER"];
+    const manualEntryTypes = [
+      "12 SEATER",
+      "21 SEATER",
+      "32 SEATER",
+      "50 SEATER",
+    ];
     return manualEntryTypes.includes(transportType?.toUpperCase() || "");
   }, [transportType]);
 
@@ -139,11 +150,40 @@ const TravelCostingForm: React.FC = () => {
 
     if (startLocation && endLocation && transportType && daysFormat) {
       const nightsDaysFormat = convertDaysFormatToNightsDay(daysFormat);
-      const travelData = getTravelCostData(startLocation, endLocation, transportType, nightsDaysFormat);
+      // Debug: log inputs so we can trace why auto-calculation may not run
+      // (remove these logs after verification)
+      console.debug("[TravelCostingForm] calculate baseTravelCost ->", {
+        startLocation,
+        endLocation,
+        transportType,
+        daysFormat,
+        nightsDaysFormat,
+      });
+
+      const travelData = getTravelCostData(
+        startLocation,
+        endLocation,
+        transportType,
+        nightsDaysFormat
+      );
+      console.debug("[TravelCostingForm] found travelData:", travelData);
+
       const baseCost = travelData?.payable || 0;
       setValue("travelCostingDetails.baseTravelCost", baseCost);
     }
-  }, [startLocation, endLocation, transportType, daysFormat, setValue, isExtendedTour, useDummyTransport, dummyTransportCost, requiresManualEntry, isStartLocationManual, isEndLocationManual]);
+  }, [
+    startLocation,
+    endLocation,
+    transportType,
+    daysFormat,
+    setValue,
+    isExtendedTour,
+    useDummyTransport,
+    dummyTransportCost,
+    requiresManualEntry,
+    isStartLocationManual,
+    isEndLocationManual,
+  ]);
 
   // Calculate final travel cost with margin + extra cost
   React.useEffect(() => {
@@ -172,11 +212,14 @@ const TravelCostingForm: React.FC = () => {
   if (isDisabled) {
     return (
       <div className="space-y-6">
-        <h3 className="text-lg font-medium text-gray-900">Travel Costing Details</h3>
+        <h3 className="text-lg font-medium text-gray-900">
+          Travel Costing Details
+        </h3>
         <div className="p-4 border rounded-md bg-yellow-50">
           <p className="text-yellow-800">
-            Travel costing is disabled because "Rooms Only" is selected in Customer Requirements.
-            To enable travel costing, please go back to Customer Requirements and select "All" or "Travel Only".
+            Travel costing is disabled because "Rooms Only" is selected in
+            Customer Requirements. To enable travel costing, please go back to
+            Customer Requirements and select "All" or "Travel Only".
           </p>
         </div>
       </div>
@@ -185,7 +228,9 @@ const TravelCostingForm: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-medium text-gray-900">Travel Costing Details</h3>
+      <h3 className="text-lg font-medium text-gray-900">
+        Travel Costing Details
+      </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <FormField
@@ -202,13 +247,13 @@ const TravelCostingForm: React.FC = () => {
                   required: "Start location is required",
                 })}
               />
-                             <button
-                 type="button"
-                 onClick={handleBackToStartDropdown}
-                 className="text-xs text-teal-600 hover:text-teal-800"
-               >
-                 ← Back to dropdown options
-               </button>
+              <button
+                type="button"
+                onClick={handleBackToStartDropdown}
+                className="text-xs text-teal-600 hover:text-teal-800"
+              >
+                ← Back to dropdown options
+              </button>
             </div>
           ) : (
             <select
@@ -241,13 +286,13 @@ const TravelCostingForm: React.FC = () => {
                   required: "End location is required",
                 })}
               />
-                             <button
-                 type="button"
-                 onClick={handleBackToEndDropdown}
-                 className="text-xs text-teal-600 hover:text-teal-800"
-               >
-                 ← Back to dropdown options
-               </button>
+              <button
+                type="button"
+                onClick={handleBackToEndDropdown}
+                className="text-xs text-teal-600 hover:text-teal-800"
+              >
+                ← Back to dropdown options
+              </button>
             </div>
           ) : (
             <select
@@ -296,14 +341,18 @@ const TravelCostingForm: React.FC = () => {
             className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
             {...register("travelCostingDetails.useDummyTransport")}
           />
-          <label htmlFor="useDummyTransport" className="text-sm font-medium text-gray-900">
+          <label
+            htmlFor="useDummyTransport"
+            className="text-sm font-medium text-gray-900"
+          >
             Use DUMMY Transport Cost
           </label>
         </div>
         <p className="mt-1 text-sm text-gray-600">
-          Enable this to manually input a custom transport amount. The 15% margin will be added automatically.
+          Enable this to manually input a custom transport amount. The 15%
+          margin will be added automatically.
         </p>
-        
+
         {useDummyTransport && (
           <div className="mt-4">
             <FormField
@@ -317,8 +366,13 @@ const TravelCostingForm: React.FC = () => {
                 placeholder="Enter custom transport cost"
                 {...register("travelCostingDetails.dummyTransportCost", {
                   valueAsNumber: true,
-                  min: { value: 0, message: "DUMMY transport cost cannot be negative" },
-                  required: useDummyTransport ? "DUMMY transport cost is required" : false,
+                  min: {
+                    value: 0,
+                    message: "DUMMY transport cost cannot be negative",
+                  },
+                  required: useDummyTransport
+                    ? "DUMMY transport cost is required"
+                    : false,
                 })}
               />
               <p className="mt-1 text-sm text-gray-500">
@@ -334,37 +388,58 @@ const TravelCostingForm: React.FC = () => {
           label="Base Travel Cost"
           error={errors.travelCostingDetails?.baseTravelCost?.message}
         >
-          <RoleBasedField 
-            hideForEmployee={true} 
+          <RoleBasedField
+            hideForEmployee={true}
             showPlaceholder={true}
             placeholderText="Hidden"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
-        >
-          <input
-            type="number"
-            min="0"
-            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm ${
-                useDummyTransport || isExtendedTour || requiresManualEntry || (!currentTravelData && !isExtendedTour) ? '' : 'bg-gray-50'
-            }`}
-            {...register("travelCostingDetails.baseTravelCost", {
-              valueAsNumber: true,
-              min: { value: 0, message: "Base travel cost cannot be negative" },
-                required: requiresManualEntry ? "Base travel cost is required for this transport type" : false,
-            })}
-              readOnly={!useDummyTransport && !isExtendedTour && !requiresManualEntry && currentTravelData !== null}
-              placeholder={useDummyTransport ? "Set by DUMMY cost" : (isExtendedTour || requiresManualEntry) ? "Enter cost manually" : "0"}
-          />
+          >
+            <input
+              type="number"
+              min="0"
+              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm ${
+                useDummyTransport ||
+                isExtendedTour ||
+                requiresManualEntry ||
+                (!currentTravelData && !isExtendedTour)
+                  ? ""
+                  : "bg-gray-50"
+              }`}
+              {...register("travelCostingDetails.baseTravelCost", {
+                valueAsNumber: true,
+                min: {
+                  value: 0,
+                  message: "Base travel cost cannot be negative",
+                },
+                required: requiresManualEntry
+                  ? "Base travel cost is required for this transport type"
+                  : false,
+              })}
+              readOnly={
+                !useDummyTransport &&
+                !isExtendedTour &&
+                !requiresManualEntry &&
+                currentTravelData !== null
+              }
+              placeholder={
+                useDummyTransport
+                  ? "Set by DUMMY cost"
+                  : isExtendedTour || requiresManualEntry
+                  ? "Enter cost manually"
+                  : "0"
+              }
+            />
           </RoleBasedField>
           <p className="mt-1 text-sm text-gray-500">
-            {useDummyTransport 
+            {useDummyTransport
               ? "This value is set by the DUMMY transport cost above"
               : requiresManualEntry
-                ? "Manual entry required for this transport type"
-              : isExtendedTour 
-                ? "Extended tour format detected. Please enter cost manually."
-                : currentTravelData 
-                  ? "Automatically calculated based on route and transport type" 
-                  : "No data available for this combination. Please enter cost manually."}
+              ? "Manual entry required for this transport type"
+              : isExtendedTour
+              ? "Extended tour format detected. Please enter cost manually."
+              : currentTravelData
+              ? "Automatically calculated based on route and transport type"
+              : "No data available for this combination. Please enter cost manually."}
           </p>
         </FormField>
 
@@ -382,12 +457,14 @@ const TravelCostingForm: React.FC = () => {
               min: { value: 0, message: "Extra cost cannot be negative" },
             })}
           />
-          <p className="mt-1 text-sm text-gray-500">Additional cost to add on top of the 15% margin</p>
+          <p className="mt-1 text-sm text-gray-500">
+            Additional cost to add on top of the 15% margin
+          </p>
         </FormField>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <FormField 
+        <FormField
           label="Margin Percentage"
           error={errors.travelCostingDetails?.marginPercentage?.message}
         >
@@ -400,41 +477,53 @@ const TravelCostingForm: React.FC = () => {
             placeholder="15"
             {...register("travelCostingDetails.marginPercentage", {
               valueAsNumber: true,
-              min: { value: 0, message: "Margin percentage cannot be negative" },
-              max: { value: 100, message: "Margin percentage cannot exceed 100%" },
+              min: {
+                value: 0,
+                message: "Margin percentage cannot be negative",
+              },
+              max: {
+                value: 100,
+                message: "Margin percentage cannot exceed 100%",
+              },
             })}
-            readOnly={user?.role === 'employee'}
-            disabled={user?.role === 'employee'}
+            readOnly={user?.role === "employee"}
+            disabled={user?.role === "employee"}
           />
-          <p className="mt-1 text-sm text-gray-500">Margin percentage applied to base travel cost (default: 15%)</p>
+          <p className="mt-1 text-sm text-gray-500">
+            Margin percentage applied to base travel cost (default: 15%)
+          </p>
         </FormField>
 
         <FormField
           label="Final Travel Cost"
           error={errors.travelCostingDetails?.finalTravelCost?.message}
         >
-          <RoleBasedField 
-            hideForEmployee={true} 
+          <RoleBasedField
+            hideForEmployee={true}
             showPlaceholder={true}
             placeholderText="Hidden"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm bg-gray-50 font-semibold"
           >
-          <input
-            type="number"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm bg-gray-50 font-semibold"
-            {...register("travelCostingDetails.finalTravelCost", {
-              valueAsNumber: true,
-            })}
-            readOnly
-          />
+            <input
+              type="number"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm bg-gray-50 font-semibold"
+              {...register("travelCostingDetails.finalTravelCost", {
+                valueAsNumber: true,
+              })}
+              readOnly
+            />
           </RoleBasedField>
-          <p className="mt-1 text-sm text-gray-500">Base cost + {marginPercentage || 15}% margin + extra cost</p>
+          <p className="mt-1 text-sm text-gray-500">
+            Base cost + {marginPercentage || 15}% margin + extra cost
+          </p>
         </FormField>
       </div>
 
-      {currentTravelData && user?.role === 'admin' && (
+      {currentTravelData && user?.role === "admin" && (
         <div className="mt-6 p-4 border rounded-md bg-gray-50">
-          <h4 className="text-sm font-medium text-gray-900 mb-3">Travel Details</h4>
+          <h4 className="text-sm font-medium text-gray-900 mb-3">
+            Travel Details
+          </h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
             <div>
               <span className="font-medium">Distance:</span>
@@ -463,22 +552,29 @@ const TravelCostingForm: React.FC = () => {
             {currentTravelData.addInfo && (
               <div className="col-span-2">
                 <span className="font-medium">Additional Info:</span>
-                <p className="text-xs text-blue-600">{currentTravelData.addInfo}</p>
+                <p className="text-xs text-blue-600">
+                  {currentTravelData.addInfo}
+                </p>
               </div>
             )}
           </div>
         </div>
       )}
 
-      {baseTravelCost > 0 && user?.role === 'admin' && (
+      {baseTravelCost > 0 && user?.role === "admin" && (
         <div className="mt-6 p-4 border rounded-md bg-blue-50">
-          <h4 className="text-sm font-medium text-blue-900 mb-2">Cost Breakdown</h4>
+          <h4 className="text-sm font-medium text-blue-900 mb-2">
+            Cost Breakdown
+          </h4>
           <div className="text-sm text-blue-800 space-y-1">
             <p>Base Travel Cost: ₹{baseTravelCost}</p>
             <p>With 15% Margin: ₹{Math.round(baseTravelCost * 1.15)}</p>
             <p>Extra Cost: ₹{extraCost}</p>
             <hr className="my-2 border-blue-200" />
-            <p className="font-semibold">Final Travel Cost: ₹{Math.round(baseTravelCost * 1.15) + extraCost}</p>
+            <p className="font-semibold">
+              Final Travel Cost: ₹
+              {Math.round(baseTravelCost * 1.15) + extraCost}
+            </p>
           </div>
         </div>
       )}
@@ -486,4 +582,4 @@ const TravelCostingForm: React.FC = () => {
   );
 };
 
-export default TravelCostingForm; 
+export default TravelCostingForm;

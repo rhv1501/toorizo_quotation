@@ -65,6 +65,15 @@ const travelCostTable = [
   { from: "MYSORE", to: "COORG", type: "SUV", nights: "2N3D", cost: 14950 },
   { from: "MYSORE", to: "COORG", type: "SUV", nights: "3N4D", cost: 19450 },
   { from: "MYSORE", to: "COORG", type: "SUV", nights: "4N5D", cost: 24750 },
+  // OOTY to OOTY (Local transportation)
+  { from: "OOTY", to: "OOTY", type: "SEDAN", nights: "1N2D", cost: 2700 },
+  { from: "OOTY", to: "OOTY", type: "SEDAN", nights: "2N3D", cost: 6300 },
+  { from: "OOTY", to: "OOTY", type: "SEDAN", nights: "3N4D", cost: 8400 },
+  { from: "OOTY", to: "OOTY", type: "SEDAN", nights: "4N5D", cost: 10500 },
+  { from: "OOTY", to: "OOTY", type: "SUV", nights: "1N2D", cost: 6200 },
+  { from: "OOTY", to: "OOTY", type: "SUV", nights: "2N3D", cost: 9300 },
+  { from: "OOTY", to: "OOTY", type: "SUV", nights: "3N4D", cost: 13400 },
+  { from: "OOTY", to: "OOTY", type: "SUV", nights: "4N5D", cost: 6800 },
 ];
 
 const CostingForm: React.FC = () => {

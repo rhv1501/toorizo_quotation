@@ -88,9 +88,19 @@ export const travelCostData: TravelCostEntry[] = [
   { from: "MYSORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "2N3D", km: 750, bata: 1600, permit: 1000, tolls: 1350, perKm: 16, payable: 15950 },
   { from: "MYSORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "3N4D", km: 1000, bata: 2000, permit: 1000, tolls: 1850, perKm: 16, payable: 20850 },
   { from: "MYSORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "4N5D", km: 1250, bata: 2400, permit: 1000, tolls: 2350, perKm: 16, payable: 25750 },
+
+  // NEW: OOTY to OOTY (Local transportation within Ooty) - costs from CostingForm without 15% margin
+  { from: "OOTY", to: "OOTY", vehicleType: "SEDAN", nightsDay: "1N2D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 2700 },
+  { from: "OOTY", to: "OOTY", vehicleType: "SEDAN", nightsDay: "2N3D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 6300 },
+  { from: "OOTY", to: "OOTY", vehicleType: "SEDAN", nightsDay: "3N4D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 8400 },
+  { from: "OOTY", to: "OOTY", vehicleType: "SEDAN", nightsDay: "4N5D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 10500 },
+  { from: "OOTY", to: "OOTY", vehicleType: "SUV", nightsDay: "1N2D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 6200 },
+  { from: "OOTY", to: "OOTY", vehicleType: "SUV", nightsDay: "2N3D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 9300 },
+  { from: "OOTY", to: "OOTY", vehicleType: "SUV", nightsDay: "3N4D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 13400 },
+  { from: "OOTY", to: "OOTY", vehicleType: "SUV", nightsDay: "4N5D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 6800 },
 ];
 
-export const startLocations = ["BANGALORE", "MYSORE", "COIMBATORE", "METTUPALAYAM"];
+export const startLocations = ["BANGALORE", "MYSORE", "COIMBATORE", "METTUPALAYAM", "OOTY"];
 export const endLocations = ["OOTY", "COORG", "WAYANAD"];
 export const vehicleTypes = ["SEDAN", "SUV", "12 SEATER", "21 SEATER", "32 SEATER", "50 SEATER"];
 
