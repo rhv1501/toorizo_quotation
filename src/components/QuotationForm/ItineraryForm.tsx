@@ -1,8 +1,25 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { QuotationData } from "../../types";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, GripVertical } from "lucide-react";
 import { locationItineraries } from "../../data/itineraries";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 type EditableDay = {
   day: number;
@@ -17,10 +34,181 @@ type EditableLocation = {
   days: EditableDay[];
 };
 
+// Sortable Day Component
+const SortableDay: React.FC<{
+  day: EditableDay;
+  dayIdx: number;
+  locationIdx: number;
+  onDayChange: (locationIdx: number, dayIdx: number, field: keyof EditableDay, value: any) => void;
+  onRemoveDay: (locationIdx: number, dayIdx: number) => void;
+  onActivityChange: (locationIdx: number, dayIdx: number, actIdx: number, value: string) => void;
+  onRemoveActivity: (locationIdx: number, dayIdx: number, actIdx: number) => void;
+  onAddActivity: (locationIdx: number, dayIdx: number) => void;
+}> = ({
+  day,
+  dayIdx,
+  locationIdx,
+  onDayChange,
+  onRemoveDay,
+  onActivityChange,
+  onRemoveActivity,
+  onAddActivity,
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: `day-${locationIdx}-${dayIdx}` });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="bg-white rounded-lg shadow p-4 mb-4 border"
+    >
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600"
+            {...attributes}
+            {...listeners}
+          >
+            <GripVertical size={20} />
+          </button>
+          <span className="font-bold text-teal-700">
+            Day
+            <input
+              type="number"
+              min={1}
+              value={day.day}
+              onChange={(e) =>
+                onDayChange(
+                  locationIdx,
+                  dayIdx,
+                  "day",
+                  Number(e.target.value)
+                )
+              }
+              className="ml-2 border rounded px-2 py-1 w-16"
+            />
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={() => onRemoveDay(locationIdx, dayIdx)}
+          className="text-red-500 hover:text-red-700"
+          title="Remove day"
+        >
+          <Trash2 size={16} />
+        </button>
+      </div>
+      <div className="mb-3">
+        <label className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            checked={day.isTravelAlone || false}
+            onChange={(e) =>
+              onDayChange(
+                locationIdx,
+                dayIdx,
+                "isTravelAlone",
+                e.target.checked
+              )
+            }
+            className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+          />
+          <span className="text-sm font-medium text-gray-700">Travel Alone Day</span>
+        </label>
+      </div>
+      {!day.isTravelAlone && (
+        <>
+          <div className="mb-2">
+            <label className="font-semibold">Title:</label>
+            <input
+              type="text"
+              value={day.title}
+              onChange={(e) =>
+                onDayChange(
+                  locationIdx,
+                  dayIdx,
+                  "title",
+                  e.target.value
+                )
+              }
+              className="border rounded px-2 py-1 w-full mt-1"
+            />
+          </div>
+
+          <div>
+            <label className="font-semibold">Activities:</label>
+            {day.activities.map((activity, actIdx) => (
+              <div key={actIdx} className="flex gap-2 mb-1">
+                <input
+                  type="text"
+                  value={activity}
+                  onChange={(e) =>
+                    onActivityChange(
+                      locationIdx,
+                      dayIdx,
+                      actIdx,
+                      e.target.value
+                    )
+                  }
+                  className="border rounded px-2 py-1 flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    onRemoveActivity(locationIdx, dayIdx, actIdx)
+                  }
+                  className="text-red-500"
+                  title="Remove activity"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => onAddActivity(locationIdx, dayIdx)}
+              className="text-teal-600 mt-1"
+            >
+              + Add Activity
+            </button>
+          </div>
+        </>
+      )}
+      {day.isTravelAlone && (
+        <div className="text-center py-4 text-gray-500 italic">
+          This is a Travel Alone day - no itinerary details needed
+        </div>
+      )}
+    </div>
+  );
+};
+
 const ItineraryForm: React.FC = () => {
   const { setValue } = useFormContext<QuotationData>();
   // This state holds all editable locations and their days/activities
   const [locations, setLocations] = React.useState<EditableLocation[]>([]);
+
+  // Setup drag-and-drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   // Add a location with prefilled data
   const handleAddLocation = (locationKey: string) => {
@@ -145,6 +333,39 @@ const ItineraryForm: React.FC = () => {
     });
   };
 
+  // Handle drag end for reordering days within a location
+  const handleDragEnd = (event: DragEndEvent, locationIdx: number) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setLocations((prev) => {
+        const updated = [...prev];
+        const oldIndex = updated[locationIdx].days.findIndex(
+          (_, idx) => `day-${locationIdx}-${idx}` === active.id
+        );
+        const newIndex = updated[locationIdx].days.findIndex(
+          (_, idx) => `day-${locationIdx}-${idx}` === over.id
+        );
+
+        // Reorder the days
+        const reorderedDays = arrayMove(updated[locationIdx].days, oldIndex, newIndex);
+        
+        // Renumber the days sequentially
+        const renumberedDays = reorderedDays.map((day, idx) => ({
+          ...day,
+          day: idx + 1,
+        }));
+
+        updated[locationIdx] = {
+          ...updated[locationIdx],
+          days: renumberedDays,
+        };
+
+        return updated;
+      });
+    }
+  };
+
   // Save all locations/days/activities to the form state for PDF export
   React.useEffect(() => {
     // Flatten all days from all locations into a single array for the form state
@@ -200,121 +421,30 @@ const ItineraryForm: React.FC = () => {
                 <Trash2 size={18} />
               </button>
             </h3>
-            {loc.days.map((day, dayIdx) => (
-              <div
-                key={dayIdx}
-                className="bg-white rounded-lg shadow p-4 mb-4 border"
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={(event) => handleDragEnd(event, locationIdx)}
+            >
+              <SortableContext
+                items={loc.days.map((_, idx) => `day-${locationIdx}-${idx}`)}
+                strategy={verticalListSortingStrategy}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-bold text-teal-700">
-                    Day
-                    <input
-                      type="number"
-                      min={1}
-                      value={day.day}
-                      onChange={(e) =>
-                        handleDayChange(
-                          locationIdx,
-                          dayIdx,
-                          "day",
-                          Number(e.target.value)
-                        )
-                      }
-                      className="ml-2 border rounded px-2 py-1 w-16"
-                    />
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveDay(locationIdx, dayIdx)}
-                    className="text-red-500 hover:text-red-700"
-                    title="Remove day"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-                <div className="mb-3">
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={day.isTravelAlone || false}
-                      onChange={(e) =>
-                        handleDayChange(
-                          locationIdx,
-                          dayIdx,
-                          "isTravelAlone",
-                          e.target.checked
-                        )
-                      }
-                      className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
-                    />
-                    <span className="text-sm font-medium text-gray-700">Travel Alone Day</span>
-                  </label>
-                </div>
-                {!day.isTravelAlone && (
-                  <>
-                    <div className="mb-2">
-                      <label className="font-semibold">Title:</label>
-                      <input
-                        type="text"
-                        value={day.title}
-                        onChange={(e) =>
-                          handleDayChange(
-                            locationIdx,
-                            dayIdx,
-                            "title",
-                            e.target.value
-                          )
-                        }
-                        className="border rounded px-2 py-1 w-full mt-1"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="font-semibold">Activities:</label>
-                      {day.activities.map((activity, actIdx) => (
-                        <div key={actIdx} className="flex gap-2 mb-1">
-                          <input
-                            type="text"
-                            value={activity}
-                            onChange={(e) =>
-                              handleActivityChange(
-                                locationIdx,
-                                dayIdx,
-                                actIdx,
-                                e.target.value
-                              )
-                            }
-                            className="border rounded px-2 py-1 flex-1"
-                          />
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleRemoveActivity(locationIdx, dayIdx, actIdx)
-                            }
-                            className="text-red-500"
-                            title="Remove activity"
-                          >
-                            Remove
-                          </button>
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={() => handleAddActivity(locationIdx, dayIdx)}
-                        className="text-teal-600 mt-1"
-                      >
-                        + Add Activity
-                      </button>
-                    </div>
-                  </>
-                )}
-                {day.isTravelAlone && (
-                  <div className="text-center py-4 text-gray-500 italic">
-                    This is a Travel Alone day - no itinerary details needed
-                  </div>
-                )}
-              </div>
-            ))}
+                {loc.days.map((day, dayIdx) => (
+                  <SortableDay
+                    key={`day-${locationIdx}-${dayIdx}`}
+                    day={day}
+                    dayIdx={dayIdx}
+                    locationIdx={locationIdx}
+                    onDayChange={handleDayChange}
+                    onRemoveDay={handleRemoveDay}
+                    onActivityChange={handleActivityChange}
+                    onRemoveActivity={handleRemoveActivity}
+                    onAddActivity={handleAddActivity}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
             <button
               type="button"
               onClick={() => handleAddDay(locationIdx)}
