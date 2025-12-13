@@ -1361,152 +1361,112 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                 </View>
               </View>
             ) : (
-              ["standard", "comfort"].map((type) => {
-                const pkg = data.costingDetails[type];
-                const customHotel =
-                  typeof pkg === "object" &&
-                  pkg !== null &&
-                  "customHotel" in pkg
-                    ? pkg.customHotel
-                    : false;
-                const customHotelName =
-                  typeof pkg === "object" &&
-                  pkg !== null &&
-                  "customHotelName" in pkg
-                    ? pkg.customHotelName
+              ["standard", "comfort"]
+                .filter((type) => {
+                  // Filter packages based on selection
+                  if (type === "standard")
+                    return data.packageSelection?.showStandard !== false;
+                  if (type === "comfort")
+                    return data.packageSelection?.showComfort !== false;
+                  return true;
+                })
+                .map((type) => {
+                  const pkg = data.costingDetails[type];
+                  const customHotel =
+                    typeof pkg === "object" &&
+                    pkg !== null &&
+                    "customHotel" in pkg
+                      ? pkg.customHotel
+                      : false;
+                  const customHotelName =
+                    typeof pkg === "object" &&
+                    pkg !== null &&
+                    "customHotelName" in pkg
+                      ? pkg.customHotelName
+                      : "";
+                  // Color map for each package
+                  const colorMap = {
+                    standard: "#16a34a", // green
+                    comfort: "#2563eb", // blue
+                  };
+                  const tableColor =
+                    colorMap[type as keyof typeof colorMap] || "#888";
+                  // Get costs from final costing details if available
+                  const finalCostData =
+                    data.finalCostingDetails?.[
+                      type as keyof typeof data.finalCostingDetails
+                    ];
+                  const costingPkg =
+                    data.costingDetails?.[
+                      type as keyof typeof data.costingDetails
+                    ];
+                  const finalCost = getFinalCostString(
+                    finalCostData,
+                    costingPkg
+                  );
+                  // Get unique locations from itinerary, excluding skipped locations
+                  const uniqueLocations = Array.from(
+                    new Set(data.itinerary.map((d: any) => d.location))
+                  ).filter(
+                    (location) =>
+                      !data.hotelCostingDetails?.skippedLocations?.[location]
+                  );
+                  // Get check-in/check-out dates
+                  const checkIn = data.clientDetails.checkInDate
+                    ? format(new Date(data.clientDetails.checkInDate), "MMM d")
                     : "";
-                // Color map for each package
-                const colorMap = {
-                  standard: "#16a34a", // green
-                  comfort: "#2563eb", // blue
-                };
-                const tableColor =
-                  colorMap[type as keyof typeof colorMap] || "#888";
-                // Get costs from final costing details if available
-                const finalCostData =
-                  data.finalCostingDetails?.[
-                    type as keyof typeof data.finalCostingDetails
-                  ];
-                const costingPkg =
-                  data.costingDetails?.[
-                    type as keyof typeof data.costingDetails
-                  ];
-                const finalCost = getFinalCostString(finalCostData, costingPkg);
-                // Get unique locations from itinerary, excluding skipped locations
-                const uniqueLocations = Array.from(
-                  new Set(data.itinerary.map((d: any) => d.location))
-                ).filter(
-                  (location) =>
-                    !data.hotelCostingDetails?.skippedLocations?.[location]
-                );
-                // Get check-in/check-out dates
-                const checkIn = data.clientDetails.checkInDate
-                  ? format(new Date(data.clientDetails.checkInDate), "MMM d")
-                  : "";
-                const checkOut = data.clientDetails.checkOutDate
-                  ? format(new Date(data.clientDetails.checkOutDate), "MMM d")
-                  : "";
-                // Get no. of days and nights
-                const daysNights = data.clientDetails.daysFormat || "";
-                // Get transport provided - use travelCostingDetails.transportType with fallback to clientDetails.transportProvided
-                const transportProvided =
-                  data.travelCostingDetails?.transportType ||
-                  data.clientDetails.transportProvided ||
-                  "";
-                // Get no. of rooms - show detailed breakdown
-                const noOfRooms = data.clientDetails.roomAllocations?.length
-                  ? data.clientDetails.roomAllocations
-                      .map(
-                        (allocation) =>
-                          `${allocation.roomCount} ${allocation.roomType}`
-                      )
-                      .join(", ")
-                  : "No rooms specified";
-                return (
-                  <View
-                    key={type}
-                    style={{
-                      border: `2px solid ${tableColor}`,
-                      borderRadius: 4,
-                      marginBottom: 24,
-                      backgroundColor: "#fff",
-                    }}
-                  >
+                  const checkOut = data.clientDetails.checkOutDate
+                    ? format(new Date(data.clientDetails.checkOutDate), "MMM d")
+                    : "";
+                  // Get no. of days and nights
+                  const daysNights = data.clientDetails.daysFormat || "";
+                  // Get transport provided - use travelCostingDetails.transportType with fallback to clientDetails.transportProvided
+                  const transportProvided =
+                    data.travelCostingDetails?.transportType ||
+                    data.clientDetails.transportProvided ||
+                    "";
+                  // Get no. of rooms - show detailed breakdown
+                  const noOfRooms = data.clientDetails.roomAllocations?.length
+                    ? data.clientDetails.roomAllocations
+                        .map(
+                          (allocation) =>
+                            `${allocation.roomCount} ${allocation.roomType}`
+                        )
+                        .join(", ")
+                    : "No rooms specified";
+                  return (
                     <View
+                      key={type}
                       style={{
-                        flexDirection: "row",
-                        backgroundColor: tableColor,
-                        borderTopLeftRadius: 4,
-                        borderTopRightRadius: 4,
-                        borderBottom: `2px solid ${tableColor}`,
+                        border: `2px solid ${tableColor}`,
+                        borderRadius: 4,
+                        marginBottom: 24,
+                        backgroundColor: "#fff",
                       }}
                     >
-                      <Text
+                      <View
                         style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 14,
-                          padding: 8,
-                          fontFamily: "Open Sans",
-                          color: "#fff",
-                          letterSpacing: 1,
+                          flexDirection: "row",
+                          backgroundColor: tableColor,
+                          borderTopLeftRadius: 4,
+                          borderTopRightRadius: 4,
+                          borderBottom: `2px solid ${tableColor}`,
                         }}
                       >
-                        {type.toUpperCase()} PACKAGE
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        borderBottom: "1px solid #888",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        Location
-                      </Text>
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        Check-in/out
-                      </Text>
-                      <Text
-                        style={{
-                          flex: 2,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        Hotel name (room type)
-                      </Text>
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        No of rooms
-                      </Text>
-                    </View>
-                    {customHotel && customHotelName ? (
+                        <Text
+                          style={{
+                            flex: 1,
+                            fontWeight: 700,
+                            fontSize: 14,
+                            padding: 8,
+                            fontFamily: "Open Sans",
+                            color: "#fff",
+                            letterSpacing: 1,
+                          }}
+                        >
+                          {type.toUpperCase()} PACKAGE
+                        </Text>
+                      </View>
                       <View
                         style={{
                           flexDirection: "row",
@@ -1516,441 +1476,430 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                         <Text
                           style={{
                             flex: 1,
+                            fontWeight: 700,
                             fontSize: 11,
                             padding: 4,
                             fontFamily: "Open Sans",
                           }}
                         >
-                          {uniqueLocations.join(", ")}
+                          Location
                         </Text>
                         <Text
                           style={{
                             flex: 1,
+                            fontWeight: 700,
                             fontSize: 11,
                             padding: 4,
                             fontFamily: "Open Sans",
                           }}
                         >
-                          {checkIn} - {checkOut}
+                          Check-in/out
                         </Text>
                         <Text
                           style={{
                             flex: 2,
-                            fontSize: 9,
-                            padding: 4,
-                            fontFamily: "Open Sans",
-                          }}
-                        >
-                          {customHotelName}
-                        </Text>
-                        <Text
-                          style={{
-                            flex: 1,
+                            fontWeight: 700,
                             fontSize: 11,
                             padding: 4,
                             fontFamily: "Open Sans",
                           }}
                         >
-                          {noOfRooms}
+                          Hotel name (room type)
+                        </Text>
+                        <Text
+                          style={{
+                            flex: 1,
+                            fontWeight: 700,
+                            fontSize: 11,
+                            padding: 4,
+                            fontFamily: "Open Sans",
+                          }}
+                        >
+                          No of rooms
                         </Text>
                       </View>
-                    ) : (
-                      uniqueLocations.map((location, idx) => {
-                        // Get hotels for this location and package type, avoid duplicates
-                        const hotelsForLoc = hotels.filter(
-                          (h) =>
-                            h.location.toUpperCase() ===
-                              location.toUpperCase() &&
-                            h.packageType === type.toUpperCase()
-                        );
-                        // Remove duplicate hotel names for this location
-                        const hotelNames = Array.from(
-                          new Set(
-                            hotelsForLoc.map(
-                              (h) => `${h.hotel} (${h.roomType})`
-                            )
-                          )
-                        );
-                        // Get location-specific date range
-                        const locationDateRange =
-                          getLocationDateRange(location);
-                        return (
-                          <View
-                            key={location + idx}
+                      {customHotel && customHotelName ? (
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            borderBottom: "1px solid #888",
+                          }}
+                        >
+                          <Text
                             style={{
-                              flexDirection: "row",
-                              borderBottom: "1px solid #888",
+                              flex: 1,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
                             }}
                           >
-                            <Text
+                            {uniqueLocations.join(", ")}
+                          </Text>
+                          <Text
+                            style={{
+                              flex: 1,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            {checkIn} - {checkOut}
+                          </Text>
+                          <Text
+                            style={{
+                              flex: 2,
+                              fontSize: 9,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            {customHotelName}
+                          </Text>
+                          <Text
+                            style={{
+                              flex: 1,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            {noOfRooms}
+                          </Text>
+                        </View>
+                      ) : (
+                        uniqueLocations.map((location, idx) => {
+                          // Get hotels for this location and package type, avoid duplicates
+                          const hotelsForLoc = hotels.filter(
+                            (h) =>
+                              h.location.toUpperCase() ===
+                                location.toUpperCase() &&
+                              h.packageType === type.toUpperCase()
+                          );
+                          // Remove duplicate hotel names for this location
+                          const hotelNames = Array.from(
+                            new Set(
+                              hotelsForLoc.map(
+                                (h) => `${h.hotel} (${h.roomType})`
+                              )
+                            )
+                          );
+                          // Get location-specific date range
+                          const locationDateRange =
+                            getLocationDateRange(location);
+                          return (
+                            <View
+                              key={location + idx}
                               style={{
-                                flex: 1,
-                                fontSize: 11,
-                                padding: 4,
-                                fontFamily: "Open Sans",
+                                flexDirection: "row",
+                                borderBottom: "1px solid #888",
                               }}
                             >
-                              {location}
-                            </Text>
-                            <Text
-                              style={{
-                                flex: 1,
-                                fontSize: 11,
-                                padding: 4,
-                                fontFamily: "Open Sans",
-                              }}
-                            >
-                              {locationDateRange}
-                            </Text>
-                            <Text
-                              style={{
-                                flex: 2,
-                                fontSize: 9,
-                                padding: 4,
-                                fontFamily: "Open Sans",
-                              }}
-                            >
-                              {hotelNames.join(", ")}
-                            </Text>
-                            <Text
-                              style={{
-                                flex: 1,
-                                fontSize: 11,
-                                padding: 4,
-                                fontFamily: "Open Sans",
-                              }}
-                            >
-                              {noOfRooms}
-                            </Text>
-                          </View>
-                        );
-                      })
-                    )}
-                    {/* Transport Provided row */}
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        borderBottom: "1px solid #888",
-                        backgroundColor: "#f3f4f6",
-                      }}
-                    >
-                      <Text
+                              <Text
+                                style={{
+                                  flex: 1,
+                                  fontSize: 11,
+                                  padding: 4,
+                                  fontFamily: "Open Sans",
+                                }}
+                              >
+                                {location}
+                              </Text>
+                              <Text
+                                style={{
+                                  flex: 1,
+                                  fontSize: 11,
+                                  padding: 4,
+                                  fontFamily: "Open Sans",
+                                }}
+                              >
+                                {locationDateRange}
+                              </Text>
+                              <Text
+                                style={{
+                                  flex: 2,
+                                  fontSize: 9,
+                                  padding: 4,
+                                  fontFamily: "Open Sans",
+                                }}
+                              >
+                                {hotelNames.join(", ")}
+                              </Text>
+                              <Text
+                                style={{
+                                  flex: 1,
+                                  fontSize: 11,
+                                  padding: 4,
+                                  fontFamily: "Open Sans",
+                                }}
+                              >
+                                {noOfRooms}
+                              </Text>
+                            </View>
+                          );
+                        })
+                      )}
+                      {/* Transport Provided row */}
+                      <View
                         style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
+                          flexDirection: "row",
+                          borderBottom: "1px solid #888",
+                          backgroundColor: "#f3f4f6",
                         }}
                       >
-                        Transport Provided
-                      </Text>
-                      <Text
+                        <Text
+                          style={{
+                            flex: 1,
+                            fontWeight: 700,
+                            fontSize: 11,
+                            padding: 4,
+                            fontFamily: "Open Sans",
+                          }}
+                        >
+                          Transport Provided
+                        </Text>
+                        <Text
+                          style={{
+                            flex: 3,
+                            fontSize: 11,
+                            padding: 4,
+                            fontFamily: "Open Sans",
+                          }}
+                        >
+                          {transportProvided}
+                        </Text>
+                      </View>
+                      {/* No. of Days and Nights row */}
+                      <View
                         style={{
-                          flex: 3,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
+                          flexDirection: "row",
+                          borderBottom: "1px solid #888",
+                          backgroundColor: "#f3f4f6",
                         }}
                       >
-                        {transportProvided}
-                      </Text>
+                        <Text
+                          style={{
+                            flex: 1,
+                            fontWeight: 700,
+                            fontSize: 11,
+                            padding: 4,
+                            fontFamily: "Open Sans",
+                          }}
+                        >
+                          No. of Days and Nights
+                        </Text>
+                        <Text
+                          style={{
+                            flex: 3,
+                            fontSize: 11,
+                            padding: 4,
+                            fontFamily: "Open Sans",
+                          }}
+                        >
+                          {daysNights}
+                        </Text>
+                      </View>
+                      {/* Final Cost row */}
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          borderBottom: "1px solid #888",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            flex: 1,
+                            fontWeight: 700,
+                            fontSize: 11,
+                            padding: 4,
+                            fontFamily: "Open Sans",
+                          }}
+                        >
+                          Final Cost
+                        </Text>
+                        <Text style={[{ flex: 3 }, styles.finalCostRupee]}>
+                          {finalCost}
+                        </Text>
+                      </View>
                     </View>
-                    {/* No. of Days and Nights row */}
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        borderBottom: "1px solid #888",
-                        backgroundColor: "#f3f4f6",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        No. of Days and Nights
-                      </Text>
-                      <Text
-                        style={{
-                          flex: 3,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        {daysNights}
-                      </Text>
-                    </View>
-                    {/* Final Cost row */}
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        borderBottom: "1px solid #888",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        Final Cost
-                      </Text>
-                      <Text style={[{ flex: 3 }, styles.finalCostRupee]}>
-                        {finalCost}
-                      </Text>
-                    </View>
-                  </View>
-                );
-              })
+                  );
+                })
             )}
           </View>
           <PDFLogoFooter logoSrc={optimizedLogo} />
         </View>
       </Page>
 
-      {/* Luxury Package on a new page - only if not travel_only */}
-      {data.customerRequirements?.type !== "travel_only" && (
-        <Page
-          size="A4"
-          style={{
-            backgroundColor: isCoorgAlone ? "#CAE1CC" : "#f6ecd9",
-            padding: 32,
-          }}
-        >
-          <View
-            style={{ position: "relative", minHeight: "100%", padding: 32 }}
+      {/* Luxury Package on a new page - only if not travel_only and luxury is selected */}
+      {data.customerRequirements?.type !== "travel_only" &&
+        data.packageSelection?.showLuxury !== false && (
+          <Page
+            size="A4"
+            style={{
+              backgroundColor: isCoorgAlone ? "#CAE1CC" : "#f6ecd9",
+              padding: 32,
+            }}
           >
-            <View style={{ position: "relative", zIndex: 1 }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#0D9488",
-                  marginBottom: 16,
-                  fontFamily: "Open Sans",
-                }}
-              >
-                Package Options
-              </Text>
-              {["luxury"].map((type) => {
-                const pkg = data.costingDetails[type];
-                const customHotel =
-                  typeof pkg === "object" &&
-                  pkg !== null &&
-                  "customHotel" in pkg
-                    ? pkg.customHotel
-                    : false;
-                const customHotelName =
-                  typeof pkg === "object" &&
-                  pkg !== null &&
-                  "customHotelName" in pkg
-                    ? pkg.customHotelName
-                    : "";
-                // Color map for each package
-                const colorMap = {
-                  luxury: "#eab308", // gold
-                };
-                const tableColor =
-                  colorMap[type as keyof typeof colorMap] || "#888";
-                // Get costs from final costing details if available
-                const finalCostData =
-                  data.finalCostingDetails?.[
-                    type as keyof typeof data.finalCostingDetails
-                  ];
-                const costingPkg =
-                  data.costingDetails?.[
-                    type as keyof typeof data.costingDetails
-                  ];
-                const finalCost = getFinalCostString(finalCostData, costingPkg);
-                // Get unique locations from itinerary, excluding skipped locations
-                const uniqueLocations = Array.from(
-                  new Set(data.itinerary.map((d: any) => d.location))
-                ).filter(
-                  (location) =>
-                    !data.hotelCostingDetails?.skippedLocations?.[location]
-                );
-                // Get overall date range for display
-                const overallDateRange = getOverallDateRange();
-                // Get no. of days and nights
-                const daysNights = data.clientDetails.daysFormat || "";
-                // Get transport provided - use travelCostingDetails.transportType with fallback to clientDetails.transportProvided
-                const transportProvided =
-                  data.travelCostingDetails?.transportType ||
-                  data.clientDetails.transportProvided ||
-                  "";
-                // Get no. of rooms - show detailed breakdown
-                const noOfRooms = data.clientDetails.roomAllocations?.length
-                  ? data.clientDetails.roomAllocations
-                      .map(
-                        (allocation) =>
-                          `${allocation.roomCount} ${allocation.roomType}`
-                      )
-                      .join(", ")
-                  : "No rooms specified";
-                return (
-                  <View
-                    key={type}
-                    style={{
-                      border: `2px solid ${tableColor}`,
-                      borderRadius: 4,
-                      marginBottom: 24,
-                      backgroundColor: "#fff",
-                    }}
-                  >
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        backgroundColor: tableColor,
-                        borderTopLeftRadius: 4,
-                        borderTopRightRadius: 4,
-                        borderBottom: `2px solid ${tableColor}`,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 14,
-                          padding: 8,
-                          fontFamily: "Open Sans",
-                          color: "#fff",
-                          letterSpacing: 1,
-                        }}
-                      >
-                        {type.toUpperCase()} PACKAGE
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        borderBottom: "1px solid #888",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        Location
-                      </Text>
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        Check-in/out
-                      </Text>
-                      <Text
-                        style={{
-                          flex: 2,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        Hotel name (room type)
-                      </Text>
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        No of rooms
-                      </Text>
-                    </View>
-                    {customHotel && customHotelName ? (
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          borderBottom: "1px solid #888",
-                        }}
-                      >
-                        <Text
-                          style={{
-                            flex: 1,
-                            fontSize: 11,
-                            padding: 4,
-                            fontFamily: "Open Sans",
-                          }}
-                        >
-                          {uniqueLocations.join(", ")}
-                        </Text>
-                        <Text
-                          style={{
-                            flex: 1,
-                            fontSize: 11,
-                            padding: 4,
-                            fontFamily: "Open Sans",
-                          }}
-                        >
-                          {overallDateRange}
-                        </Text>
-                        <Text
-                          style={{
-                            flex: 2,
-                            fontSize: 9,
-                            padding: 4,
-                            fontFamily: "Open Sans",
-                          }}
-                        >
-                          {customHotelName}
-                        </Text>
-                        <Text
-                          style={{
-                            flex: 1,
-                            fontSize: 11,
-                            padding: 4,
-                            fontFamily: "Open Sans",
-                          }}
-                        >
-                          {noOfRooms}
-                        </Text>
-                      </View>
-                    ) : (
-                      uniqueLocations.map((location, idx) => {
-                        // Get hotels for this location and package type, avoid duplicates
-                        const hotelsForLoc = hotels.filter(
-                          (h) =>
-                            h.location.toUpperCase() ===
-                              location.toUpperCase() &&
-                            h.packageType === type.toUpperCase()
-                        );
-                        // Remove duplicate hotel names for this location
-                        const hotelNames = Array.from(
-                          new Set(
-                            hotelsForLoc.map(
-                              (h) => `${h.hotel} (${h.roomType})`
-                            )
+            <View
+              style={{ position: "relative", minHeight: "100%", padding: 32 }}
+            >
+              <View style={{ position: "relative", zIndex: 1 }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: "#0D9488",
+                    marginBottom: 16,
+                    fontFamily: "Open Sans",
+                  }}
+                >
+                  Package Options
+                </Text>
+                {["luxury"]
+                  .filter((type) => data.packageSelection?.showLuxury !== false)
+                  .map((type) => {
+                    const pkg = data.costingDetails[type];
+                    const customHotel =
+                      typeof pkg === "object" &&
+                      pkg !== null &&
+                      "customHotel" in pkg
+                        ? pkg.customHotel
+                        : false;
+                    const customHotelName =
+                      typeof pkg === "object" &&
+                      pkg !== null &&
+                      "customHotelName" in pkg
+                        ? pkg.customHotelName
+                        : "";
+                    // Color map for each package
+                    const colorMap = {
+                      luxury: "#eab308", // gold
+                    };
+                    const tableColor =
+                      colorMap[type as keyof typeof colorMap] || "#888";
+                    // Get costs from final costing details if available
+                    const finalCostData =
+                      data.finalCostingDetails?.[
+                        type as keyof typeof data.finalCostingDetails
+                      ];
+                    const costingPkg =
+                      data.costingDetails?.[
+                        type as keyof typeof data.costingDetails
+                      ];
+                    const finalCost = getFinalCostString(
+                      finalCostData,
+                      costingPkg
+                    );
+                    // Get unique locations from itinerary, excluding skipped locations
+                    const uniqueLocations = Array.from(
+                      new Set(data.itinerary.map((d: any) => d.location))
+                    ).filter(
+                      (location) =>
+                        !data.hotelCostingDetails?.skippedLocations?.[location]
+                    );
+                    // Get overall date range for display
+                    const overallDateRange = getOverallDateRange();
+                    // Get no. of days and nights
+                    const daysNights = data.clientDetails.daysFormat || "";
+                    // Get transport provided - use travelCostingDetails.transportType with fallback to clientDetails.transportProvided
+                    const transportProvided =
+                      data.travelCostingDetails?.transportType ||
+                      data.clientDetails.transportProvided ||
+                      "";
+                    // Get no. of rooms - show detailed breakdown
+                    const noOfRooms = data.clientDetails.roomAllocations?.length
+                      ? data.clientDetails.roomAllocations
+                          .map(
+                            (allocation) =>
+                              `${allocation.roomCount} ${allocation.roomType}`
                           )
-                        );
-                        // Get location-specific date range
-                        const locationDateRange =
-                          getLocationDateRange(location);
-                        return (
+                          .join(", ")
+                      : "No rooms specified";
+                    return (
+                      <View
+                        key={type}
+                        style={{
+                          border: `2px solid ${tableColor}`,
+                          borderRadius: 4,
+                          marginBottom: 24,
+                          backgroundColor: "#fff",
+                        }}
+                      >
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            backgroundColor: tableColor,
+                            borderTopLeftRadius: 4,
+                            borderTopRightRadius: 4,
+                            borderBottom: `2px solid ${tableColor}`,
+                          }}
+                        >
+                          <Text
+                            style={{
+                              flex: 1,
+                              fontWeight: 700,
+                              fontSize: 14,
+                              padding: 8,
+                              fontFamily: "Open Sans",
+                              color: "#fff",
+                              letterSpacing: 1,
+                            }}
+                          >
+                            {type.toUpperCase()} PACKAGE
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            borderBottom: "1px solid #888",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              flex: 1,
+                              fontWeight: 700,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            Location
+                          </Text>
+                          <Text
+                            style={{
+                              flex: 1,
+                              fontWeight: 700,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            Check-in/out
+                          </Text>
+                          <Text
+                            style={{
+                              flex: 2,
+                              fontWeight: 700,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            Hotel name (room type)
+                          </Text>
+                          <Text
+                            style={{
+                              flex: 1,
+                              fontWeight: 700,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            No of rooms
+                          </Text>
+                        </View>
+                        {customHotel && customHotelName ? (
                           <View
-                            key={location + idx}
                             style={{
                               flexDirection: "row",
                               borderBottom: "1px solid #888",
@@ -1964,7 +1913,7 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                                 fontFamily: "Open Sans",
                               }}
                             >
-                              {location}
+                              {uniqueLocations.join(", ")}
                             </Text>
                             <Text
                               style={{
@@ -1974,7 +1923,7 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                                 fontFamily: "Open Sans",
                               }}
                             >
-                              {locationDateRange}
+                              {overallDateRange}
                             </Text>
                             <Text
                               style={{
@@ -1984,7 +1933,7 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                                 fontFamily: "Open Sans",
                               }}
                             >
-                              {hotelNames.join(", ")}
+                              {customHotelName}
                             </Text>
                             <Text
                               style={{
@@ -1997,99 +1946,168 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                               {noOfRooms}
                             </Text>
                           </View>
-                        );
-                      })
-                    )}
-                    {/* Transport Provided row */}
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        borderBottom: "1px solid #888",
-                        backgroundColor: "#f3f4f6",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        Transport Provided
-                      </Text>
-                      <Text
-                        style={{
-                          flex: 3,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        {transportProvided}
-                      </Text>
-                    </View>
-                    {/* No. of Days and Nights row */}
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        borderBottom: "1px solid #888",
-                        backgroundColor: "#f3f4f6",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        No. of Days and Nights
-                      </Text>
-                      <Text
-                        style={{
-                          flex: 3,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        {daysNights}
-                      </Text>
-                    </View>
-                    {/* Final Cost row */}
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        borderBottom: "1px solid #888",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontWeight: 700,
-                          fontSize: 11,
-                          padding: 4,
-                          fontFamily: "Open Sans",
-                        }}
-                      >
-                        Final Cost
-                      </Text>
-                      <Text style={[{ flex: 3 }, styles.finalCostRupee]}>
-                        {finalCost}
-                      </Text>
-                    </View>
-                  </View>
-                );
-              })}
+                        ) : (
+                          uniqueLocations.map((location, idx) => {
+                            // Get hotels for this location and package type, avoid duplicates
+                            const hotelsForLoc = hotels.filter(
+                              (h) =>
+                                h.location.toUpperCase() ===
+                                  location.toUpperCase() &&
+                                h.packageType === type.toUpperCase()
+                            );
+                            // Remove duplicate hotel names for this location
+                            const hotelNames = Array.from(
+                              new Set(
+                                hotelsForLoc.map(
+                                  (h) => `${h.hotel} (${h.roomType})`
+                                )
+                              )
+                            );
+                            // Get location-specific date range
+                            const locationDateRange =
+                              getLocationDateRange(location);
+                            return (
+                              <View
+                                key={location + idx}
+                                style={{
+                                  flexDirection: "row",
+                                  borderBottom: "1px solid #888",
+                                }}
+                              >
+                                <Text
+                                  style={{
+                                    flex: 1,
+                                    fontSize: 11,
+                                    padding: 4,
+                                    fontFamily: "Open Sans",
+                                  }}
+                                >
+                                  {location}
+                                </Text>
+                                <Text
+                                  style={{
+                                    flex: 1,
+                                    fontSize: 11,
+                                    padding: 4,
+                                    fontFamily: "Open Sans",
+                                  }}
+                                >
+                                  {locationDateRange}
+                                </Text>
+                                <Text
+                                  style={{
+                                    flex: 2,
+                                    fontSize: 9,
+                                    padding: 4,
+                                    fontFamily: "Open Sans",
+                                  }}
+                                >
+                                  {hotelNames.join(", ")}
+                                </Text>
+                                <Text
+                                  style={{
+                                    flex: 1,
+                                    fontSize: 11,
+                                    padding: 4,
+                                    fontFamily: "Open Sans",
+                                  }}
+                                >
+                                  {noOfRooms}
+                                </Text>
+                              </View>
+                            );
+                          })
+                        )}
+                        {/* Transport Provided row */}
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            borderBottom: "1px solid #888",
+                            backgroundColor: "#f3f4f6",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              flex: 1,
+                              fontWeight: 700,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            Transport Provided
+                          </Text>
+                          <Text
+                            style={{
+                              flex: 3,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            {transportProvided}
+                          </Text>
+                        </View>
+                        {/* No. of Days and Nights row */}
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            borderBottom: "1px solid #888",
+                            backgroundColor: "#f3f4f6",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              flex: 1,
+                              fontWeight: 700,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            No. of Days and Nights
+                          </Text>
+                          <Text
+                            style={{
+                              flex: 3,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            {daysNights}
+                          </Text>
+                        </View>
+                        {/* Final Cost row */}
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            borderBottom: "1px solid #888",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              flex: 1,
+                              fontWeight: 700,
+                              fontSize: 11,
+                              padding: 4,
+                              fontFamily: "Open Sans",
+                            }}
+                          >
+                            Final Cost
+                          </Text>
+                          <Text style={[{ flex: 3 }, styles.finalCostRupee]}>
+                            {finalCost}
+                          </Text>
+                        </View>
+                      </View>
+                    );
+                  })}
+              </View>
+              <PDFLogoFooter logoSrc={optimizedLogo} />
             </View>
-            <PDFLogoFooter logoSrc={optimizedLogo} />
-          </View>
-        </Page>
-      )}
+          </Page>
+        )}
 
       {/* Final Page with Last Page Image + Footer */}
       <Page

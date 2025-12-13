@@ -11,6 +11,7 @@ import HotelCostingForm from "./HotelCostingForm";
 import FinalCostingForm from "./FinalCostingForm";
 import TravelGuidelinesForm from "./TravelGuidelinesForm";
 import CompanyDetailsForm from "./CompanyDetailsForm";
+import PackageSelectionForm from "./PackageSelectionForm";
 
 interface QuotationFormProps {
   quotationData: QuotationData;
@@ -19,14 +20,39 @@ interface QuotationFormProps {
 
 const formSections = [
   { id: "client", label: "Client Details", component: ClientDetailsForm },
-  { id: "executive", label: "Executive Details", component: ExecutiveDetailsForm },
-  { id: "inclusions", label: "Inclusions & Exclusions", component: InclusionsExclusionsForm },
+  {
+    id: "executive",
+    label: "Executive Details",
+    component: ExecutiveDetailsForm,
+  },
+  {
+    id: "inclusions",
+    label: "Inclusions & Exclusions",
+    component: InclusionsExclusionsForm,
+  },
   { id: "itinerary", label: "Itinerary", component: ItineraryForm },
-  { id: "requirements", label: "Customer Requirements", component: CustomerRequirementsForm },
-  { id: "travel-costing", label: "Travel Costing", component: TravelCostingForm },
+  {
+    id: "requirements",
+    label: "Customer Requirements",
+    component: CustomerRequirementsForm,
+  },
+  {
+    id: "travel-costing",
+    label: "Travel Costing",
+    component: TravelCostingForm,
+  },
   { id: "hotel-costing", label: "Hotel Costing", component: HotelCostingForm },
   { id: "final-costing", label: "Final Costing", component: FinalCostingForm },
-  { id: "guidelines", label: "Travel Guidelines", component: TravelGuidelinesForm },
+  {
+    id: "package-selection",
+    label: "Package Selection",
+    component: PackageSelectionForm,
+  },
+  {
+    id: "guidelines",
+    label: "Travel Guidelines",
+    component: TravelGuidelinesForm,
+  },
   { id: "company", label: "Company Details", component: CompanyDetailsForm },
 ];
 
@@ -47,8 +73,9 @@ const QuotationForm: React.FC<QuotationFormProps> = ({
     const element = document.getElementById(sectionId);
     if (element) {
       const yOffset = -20; // Offset to account for header spacing
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      const y =
+        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
 
@@ -63,7 +90,9 @@ const QuotationForm: React.FC<QuotationFormProps> = ({
 
       {/* Quick Navigation Menu */}
       <div className="bg-gray-50 border-b border-gray-200 p-4">
-        <h3 className="text-sm font-medium text-gray-700 mb-3">Quick Navigation:</h3>
+        <h3 className="text-sm font-medium text-gray-700 mb-3">
+          Quick Navigation:
+        </h3>
         <div className="flex flex-wrap gap-2">
           {formSections.map((section) => (
             <button
@@ -93,7 +122,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({
                     </h3>
                     <div className="w-full h-px bg-gray-300"></div>
                   </div>
-                  
+
                   {/* Section Content */}
                   <div className="mb-8">
                     <Component />

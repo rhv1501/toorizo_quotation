@@ -166,4 +166,9 @@ Note: This is a general guideline. Cancellation terms may vary based on hotel po
     email: "toorizotravel@gmail.com",
     website: "toorizo.com",
   },
+  packageSelection: {
+    showStandard: true,
+    showComfort: true,
+    showLuxury: true,
+  },
 };

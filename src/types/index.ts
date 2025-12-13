@@ -182,6 +182,12 @@ export interface FinalCostingDetails {
   notes: string;
 }
 
+export interface PackageSelection {
+  showStandard: boolean;
+  showComfort: boolean;
+  showLuxury: boolean;
+}
+
 export interface QuotationData {
   clientDetails: ClientDetails;
   executiveDetails: ExecutiveDetails;
@@ -195,4 +201,5 @@ export interface QuotationData {
   finalCostingDetails: FinalCostingDetails;
   travelGuidelines: string;
   companyDetails: CompanyDetails;
+  packageSelection?: PackageSelection;
 }
