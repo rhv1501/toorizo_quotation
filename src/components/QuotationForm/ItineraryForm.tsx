@@ -39,10 +39,24 @@ const SortableDay: React.FC<{
   day: EditableDay;
   dayIdx: number;
   locationIdx: number;
-  onDayChange: (locationIdx: number, dayIdx: number, field: keyof EditableDay, value: any) => void;
+  onDayChange: (
+    locationIdx: number,
+    dayIdx: number,
+    field: keyof EditableDay,
+    value: any
+  ) => void;
   onRemoveDay: (locationIdx: number, dayIdx: number) => void;
-  onActivityChange: (locationIdx: number, dayIdx: number, actIdx: number, value: string) => void;
-  onRemoveActivity: (locationIdx: number, dayIdx: number, actIdx: number) => void;
+  onActivityChange: (
+    locationIdx: number,
+    dayIdx: number,
+    actIdx: number,
+    value: string
+  ) => void;
+  onRemoveActivity: (
+    locationIdx: number,
+    dayIdx: number,
+    actIdx: number
+  ) => void;
   onAddActivity: (locationIdx: number, dayIdx: number) => void;
 }> = ({
   day,
@@ -92,12 +106,7 @@ const SortableDay: React.FC<{
               min={1}
               value={day.day}
               onChange={(e) =>
-                onDayChange(
-                  locationIdx,
-                  dayIdx,
-                  "day",
-                  Number(e.target.value)
-                )
+                onDayChange(locationIdx, dayIdx, "day", Number(e.target.value))
               }
               className="ml-2 border rounded px-2 py-1 w-16"
             />
@@ -127,7 +136,9 @@ const SortableDay: React.FC<{
             }
             className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
           />
-          <span className="text-sm font-medium text-gray-700">Travel Alone Day</span>
+          <span className="text-sm font-medium text-gray-700">
+            Travel Alone Day
+          </span>
         </label>
       </div>
       {!day.isTravelAlone && (
@@ -138,12 +149,7 @@ const SortableDay: React.FC<{
               type="text"
               value={day.title}
               onChange={(e) =>
-                onDayChange(
-                  locationIdx,
-                  dayIdx,
-                  "title",
-                  e.target.value
-                )
+                onDayChange(locationIdx, dayIdx, "title", e.target.value)
               }
               className="border rounded px-2 py-1 w-full mt-1"
             />
@@ -168,9 +174,7 @@ const SortableDay: React.FC<{
                 />
                 <button
                   type="button"
-                  onClick={() =>
-                    onRemoveActivity(locationIdx, dayIdx, actIdx)
-                  }
+                  onClick={() => onRemoveActivity(locationIdx, dayIdx, actIdx)}
                   className="text-red-500"
                   title="Remove activity"
                 >
@@ -348,8 +352,12 @@ const ItineraryForm: React.FC = () => {
         );
 
         // Reorder the days
-        const reorderedDays = arrayMove(updated[locationIdx].days, oldIndex, newIndex);
-        
+        const reorderedDays = arrayMove(
+          updated[locationIdx].days,
+          oldIndex,
+          newIndex
+        );
+
         // Renumber the days sequentially
         const renumberedDays = reorderedDays.map((day, idx) => ({
           ...day,
