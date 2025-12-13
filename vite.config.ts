@@ -4,6 +4,19 @@ import { visualizer } from 'rollup-plugin-visualizer';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+  },
+  server: {
+    port: 5174,
+    strictPort: true,
+    open: true,
+  },
+  preview: {
+    port: 4174,
+    strictPort: true,
+    open: true,
+  },
   plugins: [
     react(),
     visualizer({
@@ -26,13 +39,14 @@ export default defineConfig({
         // Split vendor and large libs into separate chunks to keep main chunk small
         manualChunks(id) {
           if (id.includes('node_modules')) {
+            // Core React libs - MUST be first to prevent being caught by other conditions
+            if (id.includes('react/') || id.includes('react-dom/') || 
+                id.includes('/react') && !id.includes('react-')) {
+              return 'vendor-react';
+            }
             // PDF-related libs (loaded dynamically)
             if (id.includes('@react-pdf') || id.includes('react-pdf') || id.includes('@react-pdf/renderer')) {
               return 'vendor-react-pdf';
-            }
-            // Core React libs
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'vendor-react';
             }
             // Date handling libs  
             if (id.includes('date-fns') || id.includes('react-datepicker')) {
@@ -49,6 +63,10 @@ export default defineConfig({
             // Form handling
             if (id.includes('react-hook-form')) {
               return 'vendor-forms';
+            }
+            // DnD kit
+            if (id.includes('@dnd-kit')) {
+              return 'vendor-dnd';
             }
             // Everything else
             return 'vendor-misc';
