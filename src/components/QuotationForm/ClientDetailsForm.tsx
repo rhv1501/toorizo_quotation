@@ -56,18 +56,26 @@ const ClientDetailsForm: React.FC = () => {
       if (totalPeople === 1) {
         setValue("clientDetails.roomAllocations", [{ roomType: "Double", roomCount: 1 }]);
       } else {
-        const doubleRoomsCount = Math.floor(totalPeople / 2);
-        const hasExtraPerson = totalPeople % 2 !== 0;
+        // To minimize cost, we must minimize the total number of rooms (R)
+        // Since max capacity is 3 (Triple), minimum rooms is Math.ceil(totalPeople / 3)
+        const totalRooms = Math.ceil(totalPeople / 3);
+        
+        // Let D = double rooms, T = triple rooms
+        // D + T = totalRooms
+        // 2D + 3T >= totalPeople
+        // 2(totalRooms - T) + 3T >= totalPeople
+        // 2*totalRooms + T >= totalPeople
+        // T >= totalPeople - 2*totalRooms
+        const tripleRoomsCount = Math.max(0, totalPeople - 2 * totalRooms);
+        const doubleRoomsCount = totalRooms - tripleRoomsCount;
 
         const newAllocations: RoomAllocation[] = [];
         
-        if (hasExtraPerson) {
-            if (doubleRoomsCount > 1) {
-                newAllocations.push({ roomType: "Double", roomCount: doubleRoomsCount - 1 });
-            }
-            newAllocations.push({ roomType: "Triple", roomCount: 1 });
-        } else {
+        if (doubleRoomsCount > 0) {
             newAllocations.push({ roomType: "Double", roomCount: doubleRoomsCount });
+        }
+        if (tripleRoomsCount > 0) {
+            newAllocations.push({ roomType: "Triple", roomCount: tripleRoomsCount });
         }
         
         setValue("clientDetails.roomAllocations", newAllocations);
