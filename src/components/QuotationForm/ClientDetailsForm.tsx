@@ -18,10 +18,8 @@ const durationOptions = [
 ];
 
 const roomTypeOptions = [
-  { value: "Single", label: "Single", capacity: 1 },
   { value: "Double", label: "Double", capacity: 2 },
   { value: "Triple", label: "Triple", capacity: 3 },
-  { value: "Family", label: "Family", capacity: 4 },
 ];
 
 const ClientDetailsForm: React.FC = () => {
@@ -47,18 +45,37 @@ const ClientDetailsForm: React.FC = () => {
     return total + (roomType?.capacity || 0) * (allocation.roomCount || 0);
   }, 0);
 
-  // Auto-initialize room allocation when adults count changes
+  const prevTotalPeopleRef = React.useRef<number | undefined>(undefined);
+
+  // Auto-initialize room allocation when total people count changes
   React.useEffect(() => {
-    if (numAdults && (!roomAllocations || roomAllocations.length === 0)) {
-      const defaultRooms = Math.ceil(numAdults / 2); // Default to Double rooms
-      setValue("clientDetails.roomAllocations", [
-        {
-          roomType: "Double",
-          roomCount: defaultRooms,
+    const isTotalPeopleChanged = prevTotalPeopleRef.current !== undefined && prevTotalPeopleRef.current !== totalPeople;
+    const isInitialEmpty = !roomAllocations || roomAllocations.length === 0;
+
+    if (totalPeople && (isTotalPeopleChanged || isInitialEmpty)) {
+      if (totalPeople === 1) {
+        setValue("clientDetails.roomAllocations", [{ roomType: "Double", roomCount: 1 }]);
+      } else {
+        const doubleRoomsCount = Math.floor(totalPeople / 2);
+        const hasExtraPerson = totalPeople % 2 !== 0;
+
+        const newAllocations: RoomAllocation[] = [];
+        
+        if (hasExtraPerson) {
+            if (doubleRoomsCount > 1) {
+                newAllocations.push({ roomType: "Double", roomCount: doubleRoomsCount - 1 });
+            }
+            newAllocations.push({ roomType: "Triple", roomCount: 1 });
+        } else {
+            newAllocations.push({ roomType: "Double", roomCount: doubleRoomsCount });
         }
-      ]);
+        
+        setValue("clientDetails.roomAllocations", newAllocations);
+      }
     }
-  }, [numAdults, roomAllocations, setValue]);
+
+    prevTotalPeopleRef.current = totalPeople;
+  }, [totalPeople, roomAllocations, setValue]);
 
   // Add new room allocation
   const addRoomAllocation = () => {

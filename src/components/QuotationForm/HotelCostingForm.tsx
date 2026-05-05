@@ -21,6 +21,12 @@ const packageNightlyPremium: Record<"standard" | "comfort" | "luxury", number> =
     luxury: 700,
   };
 
+const packageExtraBedCost: Record<"standard" | "comfort" | "luxury", number> = {
+  standard: 500,
+  comfort: 750,
+  luxury: 1000,
+};
+
 const HotelCostingForm: React.FC = () => {
   const {
     register,
@@ -52,6 +58,16 @@ const HotelCostingForm: React.FC = () => {
   // Calculate total room count from room allocations
   const totalRoomCount = (clientDetails?.roomAllocations || []).reduce(
     (total, allocation) => total + (allocation.roomCount || 0),
+    0
+  );
+
+  // Calculate total extra beds (Triple rooms have 1 extra bed)
+  const totalExtraBeds = (clientDetails?.roomAllocations || []).reduce(
+    (total, allocation) => {
+      let extra = 0;
+      if (allocation.roomType === "Triple") extra = 1;
+      return total + (extra * (allocation.roomCount || 0));
+    },
     0
   );
 
@@ -102,9 +118,13 @@ const HotelCostingForm: React.FC = () => {
 
       const nightlyPremium = packageNightlyPremium[packageKey] ?? 0;
       const adjustedAverage = average + nightlyPremium;
-      return Math.round(adjustedAverage * rooms * nights);
+      
+      const extraBedRate = packageExtraBedCost[packageKey] ?? 0;
+      const totalExtraBedsCost = totalExtraBeds * extraBedRate * nights;
+
+      return Math.round((adjustedAverage * rooms * nights) + totalExtraBedsCost);
     },
-    [totalRoomCount]
+    [totalRoomCount, totalExtraBeds]
   );
 
   // Helper to calculate total average cost across all selected locations (excluding skipped)
@@ -701,6 +721,8 @@ const HotelCostingForm: React.FC = () => {
                   Cost Breakdown
                 </h5>
                 <div className="text-sm text-gray-700 space-y-1">
+                  <p>Rooms: {totalRoomCount}</p>
+                  {totalExtraBeds > 0 && <p>Extra Beds: {totalExtraBeds}</p>}
                   <p>Base Cost (Average): ₹{baseCost}</p>
                   <p>With 15% Margin: ₹{Math.round(baseCost * 1.15)}</p>
                   <p>Extra Cost: ₹{extraCost || 0}</p>
