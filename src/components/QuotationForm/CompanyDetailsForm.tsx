@@ -4,11 +4,9 @@ import { QuotationData } from '../../types';
 import { FormField } from '../ui/FormField';
 
 const CompanyDetailsForm: React.FC = () => {
-  const { register, formState: { errors }, setValue, watch } = useFormContext<QuotationData>();
+  const { register, formState: { errors }, setValue } = useFormContext<QuotationData>();
   
   // Watch the website field to auto-format it
-  const website = watch('companyDetails.website');
-  
   // Auto-format website URL when user finishes typing
   const handleWebsiteBlur = (value: string) => {
     if (value && !value.match(/^https?:\/\//)) {
@@ -76,7 +74,7 @@ const CompanyDetailsForm: React.FC = () => {
           placeholder="e.g. toorizo.com or https://www.toorizo.com"
           {...register('companyDetails.website', {
             pattern: {
-              value: /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?([\/\w.-]*)*\/?$/,
+              value: /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?([/\w.-]*)*\/?$/,
               message: 'Please enter a valid website (e.g. toorizo.com)'
             }
           })}

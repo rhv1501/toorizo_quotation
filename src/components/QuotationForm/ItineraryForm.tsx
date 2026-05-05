@@ -43,7 +43,7 @@ const SortableDay: React.FC<{
     locationIdx: number,
     dayIdx: number,
     field: keyof EditableDay,
-    value: any
+    value: string | number | boolean
   ) => void;
   onRemoveDay: (locationIdx: number, dayIdx: number) => void;
   onActivityChange: (
@@ -243,7 +243,7 @@ const ItineraryForm: React.FC = () => {
     locationIdx: number,
     dayIdx: number,
     field: keyof EditableDay,
-    value: any
+    value: string | number | boolean
   ) => {
     setLocations((prev) => {
       const updated = [...prev];

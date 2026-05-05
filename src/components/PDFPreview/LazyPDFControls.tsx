@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Download } from "lucide-react";
 import { QuotationData } from "../../types";

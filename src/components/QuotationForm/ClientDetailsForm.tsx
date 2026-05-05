@@ -36,9 +36,9 @@ const ClientDetailsForm: React.FC = () => {
   const daysFormat = watch("clientDetails.daysFormat");
   const numAdults = watch("clientDetails.numAdults");
   const numChildren = watch("clientDetails.numChildren");
-  const roomAllocations = watch("clientDetails.roomAllocations") || [];
+  const rawRoomAllocations = watch("clientDetails.roomAllocations");
+  const roomAllocations = React.useMemo(() => rawRoomAllocations || [], [rawRoomAllocations]);
 
-  const transportOptions = ["Sedan", "SUV", "12 Seater", "21 Seater", "32 Seater", "50 Seater"];
 
   // Calculate total people and room capacity
   const totalPeople = (numAdults || 0) + (numChildren || 0);
@@ -428,6 +428,7 @@ const ClientDetailsForm: React.FC = () => {
           label="Check-in Date"
           error={errors.clientDetails?.checkInDate?.message}
         >
+          {/* @ts-expect-error React-Datepicker JSX mismatch in React 18 */}
           <DatePicker
             selected={checkInDate}
             onChange={(date) => setValue("clientDetails.checkInDate", date)}
@@ -441,6 +442,7 @@ const ClientDetailsForm: React.FC = () => {
           label="Check-out Date"
           error={errors.clientDetails?.checkOutDate?.message}
         >
+          {/* @ts-expect-error React-Datepicker JSX mismatch in React 18 */}
           <DatePicker
             selected={watch("clientDetails.checkOutDate")}
             disabled

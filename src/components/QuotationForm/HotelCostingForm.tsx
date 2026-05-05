@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { QuotationData } from "../../types";
@@ -25,7 +26,6 @@ const HotelCostingForm: React.FC = () => {
     register,
     setValue,
     watch,
-    formState: { errors },
   } = useFormContext<QuotationData>();
 
   const { user } = useAuth();
@@ -38,7 +38,7 @@ const HotelCostingForm: React.FC = () => {
 
   // Get unique selected locations from itinerary
   const selectedLocations = React.useMemo(() => {
-    return Array.from(new Set((itinerary || []).map((d: any) => d.location)));
+    return Array.from(new Set((itinerary || []).map((d: { location: string }) => d.location)));
   }, [itinerary]);
 
   // Get number of nights from clientDetails.daysFormat (e.g., "3 Nights / 4 Days")
@@ -64,8 +64,8 @@ const HotelCostingForm: React.FC = () => {
     let targetLocation = (location || "").toUpperCase();
     const targetPackage = (packageType || "").toUpperCase();
 
-    // Use Ooty rates for Chikmagalur and Kodaikanal
-    if (targetLocation === "CHIKMAGALUR" || targetLocation === "KODAIKANAL") {
+    // Use Ooty rates for Chikmagalur, Kodaikanal, and Wayanad
+    if (targetLocation === "CHIKMAGALUR" || targetLocation === "KODAIKANAL" || targetLocation === "WAYANAD") {
       targetLocation = "OOTY";
     }
 
@@ -147,8 +147,11 @@ const HotelCostingForm: React.FC = () => {
       customerRequirements?.type !== "travel_only"
     ) {
       packageTypes.forEach(({ key, packageType }) => {
-        const totalCost = getTotalAverageHotelCost(packageType);
-        setValue(`hotelCostingDetails.${key}.baseCost` as any, totalCost);
+        const isCustomHotel = hotelCostingDetails?.[key as "standard" | "comfort" | "luxury"]?.customHotel;
+        if (!isCustomHotel) {
+          const totalCost = getTotalAverageHotelCost(packageType);
+          setValue(`hotelCostingDetails.${key}.baseCost` as any, totalCost);
+        }
         setValue(`hotelCostingDetails.${key}.days` as any, totalNights);
         setValue(
           `hotelCostingDetails.${key}.location` as any,
@@ -160,12 +163,16 @@ const HotelCostingForm: React.FC = () => {
         );
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     selectedLocations,
     totalNights,
     setValue,
     customerRequirements?.type,
     getTotalAverageHotelCost,
+    hotelCostingDetails?.standard?.customHotel,
+    hotelCostingDetails?.comfort?.customHotel,
+    hotelCostingDetails?.luxury?.customHotel,
   ]);
 
   // Watch individual package values for final cost calculation
@@ -237,7 +244,7 @@ const HotelCostingForm: React.FC = () => {
       // Recalculate costs for all packages based on new night distribution
       packageTypes.forEach(({ key, packageType }) => {
         const totalCost = getTotalAverageHotelCost(packageType);
-        setValue(`hotelCostingDetails.${key}.baseCost`, totalCost);
+        setValue(`hotelCostingDetails.${key}.baseCost` as any, totalCost);
       });
     }
   };
@@ -282,7 +289,7 @@ const HotelCostingForm: React.FC = () => {
     // Recalculate costs for all packages
     packageTypes.forEach(({ key, packageType }) => {
       const totalCost = getTotalAverageHotelCost(packageType);
-      setValue(`hotelCostingDetails.${key}.baseCost`, totalCost);
+      setValue(`hotelCostingDetails.${key}.baseCost` as any, totalCost);
     });
   };
 
@@ -500,7 +507,7 @@ const HotelCostingForm: React.FC = () => {
                     ? format(
                         hotelCostingDetails.locationDetails[
                           selectedLocations[0]
-                        ].checkInDate,
+                        ].checkInDate as Date,
                         "yyyy-MM-dd"
                       )
                     : ""
@@ -525,7 +532,7 @@ const HotelCostingForm: React.FC = () => {
                     ? format(
                         hotelCostingDetails.locationDetails[
                           selectedLocations[0]
-                        ].checkOutDate,
+                        ].checkOutDate as Date,
                         "yyyy-MM-dd"
                       )
                     : ""
@@ -547,9 +554,10 @@ const HotelCostingForm: React.FC = () => {
       {packageTypes.map(({ key, label, packageType }) => {
         const pkg =
           hotelCostingDetails?.[key as keyof typeof hotelCostingDetails];
-        const baseCost = typeof pkg === "object" && pkg ? pkg.baseCost : 0;
-        const extraCost = typeof pkg === "object" && pkg ? pkg.extraCost : 0;
-        const finalCost = typeof pkg === "object" && pkg ? pkg.finalCost : 0;
+        const baseCost = typeof pkg === "object" && pkg && "baseCost" in pkg ? (pkg.baseCost as number) : 0;
+        const extraCost = typeof pkg === "object" && pkg && "extraCost" in pkg ? (pkg.extraCost as number) : 0;
+        const finalCost = typeof pkg === "object" && pkg && "finalCost" in pkg ? (pkg.finalCost as number) : 0;
+        const isCustomHotel = typeof pkg === "object" && pkg && "customHotel" in pkg ? (pkg.customHotel as boolean) : false;
 
         return (
           <div key={key} className="p-4 border rounded-md bg-gray-50">
@@ -557,25 +565,60 @@ const HotelCostingForm: React.FC = () => {
               {label} Package
             </h4>
 
+            {/* Custom Hotel Checkbox */}
+            <div className="flex items-center mb-4">
+              <input
+                type="checkbox"
+                id={`customHotel-${key}`}
+                className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mr-2"
+                {...register(`hotelCostingDetails.${key}.customHotel` as any)}
+                onChange={(e) => {
+                  setValue(`hotelCostingDetails.${key}.customHotel` as any, e.target.checked);
+                  if (!e.target.checked) {
+                    // Reset to auto-calculated cost if unchecked
+                    const totalCost = getTotalAverageHotelCost(packageType);
+                    setValue(`hotelCostingDetails.${key}.baseCost` as any, totalCost);
+                    setValue(`hotelCostingDetails.${key}.customHotelName` as any, "");
+                  }
+                }}
+              />
+              <label htmlFor={`customHotel-${key}`} className="text-sm font-medium text-gray-700">
+                Use Custom Hotel & Pricing
+              </label>
+            </div>
+
+            {isCustomHotel && (
+              <div className="mb-4">
+                <FormField label="Custom Hotel Name">
+                  <input
+                    type="text"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
+                    placeholder="Enter custom hotel name"
+                    {...register(`hotelCostingDetails.${key}.customHotelName` as any)}
+                  />
+                </FormField>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <FormField label="Base Cost (Average)">
+              <FormField label={isCustomHotel ? "Base Cost" : "Base Cost (Average)"}>
                 <RoleBasedField
                   hideForEmployee={true}
                   showPlaceholder={true}
                   placeholderText="Hidden"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-50 sm:text-sm"
+                  className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${isCustomHotel ? 'border-gray-300 focus:border-teal-500 focus:ring-teal-500 bg-white' : 'border-gray-300 bg-gray-50'}`}
                 >
                   <input
                     type="number"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-50 sm:text-sm"
-                    {...register(`hotelCostingDetails.${key}.baseCost`, {
+                    className={`mt-1 block w-full rounded-md shadow-sm sm:text-sm ${isCustomHotel ? 'border-gray-300 focus:border-teal-500 focus:ring-teal-500 bg-white' : 'border-gray-300 bg-gray-50'}`}
+                    {...register(`hotelCostingDetails.${key}.baseCost` as any, {
                       valueAsNumber: true,
                     })}
-                    readOnly
+                    readOnly={!isCustomHotel}
                   />
                 </RoleBasedField>
                 <p className="mt-1 text-sm text-gray-500">
-                  Average cost across all hotels in selected locations
+                  {isCustomHotel ? "Custom cost for all locations" : "Average cost across all hotels in selected locations"}
                 </p>
               </FormField>
 
@@ -585,7 +628,7 @@ const HotelCostingForm: React.FC = () => {
                   min="0"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
                   placeholder="0"
-                  {...register(`hotelCostingDetails.${key}.extraCost`, {
+                  {...register(`hotelCostingDetails.${key}.extraCost` as any, {
                     valueAsNumber: true,
                     min: { value: 0, message: "Extra cost cannot be negative" },
                   })}
@@ -603,7 +646,7 @@ const HotelCostingForm: React.FC = () => {
                   <input
                     type="number"
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-50 font-semibold sm:text-sm"
-                    {...register(`hotelCostingDetails.${key}.finalCost`, {
+                    {...register(`hotelCostingDetails.${key}.finalCost` as any, {
                       valueAsNumber: true,
                     })}
                     readOnly
@@ -616,7 +659,7 @@ const HotelCostingForm: React.FC = () => {
             </div>
 
             {/* Location-wise cost breakdown */}
-            {isMultipleLocations && baseCost > 0 && user?.role === "admin" && (
+            {isMultipleLocations && baseCost > 0 && user?.role === "admin" && !isCustomHotel && (
               <div className="mt-4 p-3 border rounded-md bg-white">
                 <h5 className="text-sm font-medium text-gray-900 mb-2">
                   Location-wise Breakdown

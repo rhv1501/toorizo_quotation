@@ -52,6 +52,7 @@ const FinalCostingForm: React.FC = () => {
       setValue(`finalCostingDetails.${key}.totalCost`, totalCost);
       setValue(`finalCostingDetails.${key}.packageType`, `${label} Package`);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getValues, setValue, customerRequirements]);
 
   // Calculate final costs and update the form data

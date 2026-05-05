@@ -126,6 +126,8 @@ export interface HotelCostingDetails {
     extraCost: number;
     finalCost: number;  
     packageType: string;
+    customHotel?: boolean;
+    customHotelName?: string;
   };
   comfort: {
     location: string;
@@ -136,6 +138,8 @@ export interface HotelCostingDetails {
     extraCost: number;
     finalCost: number;
     packageType: string;
+    customHotel?: boolean;
+    customHotelName?: string;
   };
   luxury: {
     location: string;
@@ -146,6 +150,8 @@ export interface HotelCostingDetails {
     extraCost: number;
     finalCost: number;
     packageType: string;
+    customHotel?: boolean;
+    customHotelName?: string;
   };
   locationDays?: { [location: string]: number };
   locationDetails?: { [location: string]: LocationDetails };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import {
   Document,
@@ -1371,18 +1372,18 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                   return true;
                 })
                 .map((type) => {
-                  const pkg = data.costingDetails[type];
+                  const hotelPkg = data.hotelCostingDetails?.[type as keyof typeof data.hotelCostingDetails];
                   const customHotel =
-                    typeof pkg === "object" &&
-                    pkg !== null &&
-                    "customHotel" in pkg
-                      ? pkg.customHotel
+                    typeof hotelPkg === "object" &&
+                    hotelPkg !== null &&
+                    "customHotel" in hotelPkg
+                      ? hotelPkg.customHotel
                       : false;
                   const customHotelName =
-                    typeof pkg === "object" &&
-                    pkg !== null &&
-                    "customHotelName" in pkg
-                      ? pkg.customHotelName
+                    typeof hotelPkg === "object" &&
+                    hotelPkg !== null &&
+                    "customHotelName" in hotelPkg
+                      ? hotelPkg.customHotelName
                       : "";
                   // Color map for each package
                   const colorMap = {
@@ -1553,7 +1554,7 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                               fontFamily: "Open Sans",
                             }}
                           >
-                            {customHotelName}
+                            {customHotelName as string}
                           </Text>
                           <Text
                             style={{
@@ -1568,11 +1569,15 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                         </View>
                       ) : (
                         uniqueLocations.map((location, idx) => {
+                          // Alias locations to Ooty for hotel listing
+                          let targetLocation = location.toUpperCase();
+                          if (targetLocation === "CHIKMAGALUR" || targetLocation === "KODAIKANAL" || targetLocation === "WAYANAD") {
+                            targetLocation = "OOTY";
+                          }
                           // Get hotels for this location and package type, avoid duplicates
                           const hotelsForLoc = hotels.filter(
                             (h) =>
-                              h.location.toUpperCase() ===
-                                location.toUpperCase() &&
+                              h.location.toUpperCase() === targetLocation &&
                               h.packageType === type.toUpperCase()
                           );
                           // Remove duplicate hotel names for this location
@@ -1755,7 +1760,7 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                   Package Options
                 </Text>
                 {["luxury"]
-                  .filter((type) => data.packageSelection?.showLuxury !== false)
+                  .filter(() => data.packageSelection?.showLuxury !== false)
                   .map((type) => {
                     const pkg = data.costingDetails[type];
                     const customHotel =
