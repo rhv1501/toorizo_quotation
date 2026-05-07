@@ -8,7 +8,7 @@ const checkOutDefault = addDays(checkInDefault, 7);
 
 export const defaultQuotationData: QuotationData = {
   clientDetails: {
-    name: "",
+    name: "Dear Traveller",
     contactNumber: "",
     startLocation: "",
     endLocation: "",

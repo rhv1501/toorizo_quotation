@@ -45,28 +45,28 @@ const ClientDetailsForm: React.FC = () => {
     return total + (roomType?.capacity || 0) * (allocation.roomCount || 0);
   }, 0);
 
-  const prevTotalPeopleRef = React.useRef<number | undefined>(undefined);
+  const prevNumAdultsRef = React.useRef<number | undefined>(undefined);
 
-  // Auto-initialize room allocation when total people count changes
+  // Auto-initialize room allocation when adults count changes
   React.useEffect(() => {
-    const isTotalPeopleChanged = prevTotalPeopleRef.current !== undefined && prevTotalPeopleRef.current !== totalPeople;
+    const isAdultsChanged = prevNumAdultsRef.current !== undefined && prevNumAdultsRef.current !== numAdults;
     const isInitialEmpty = !roomAllocations || roomAllocations.length === 0;
 
-    if (totalPeople && (isTotalPeopleChanged || isInitialEmpty)) {
-      if (totalPeople === 1) {
+    if (numAdults && (isAdultsChanged || isInitialEmpty)) {
+      if (numAdults === 1) {
         setValue("clientDetails.roomAllocations", [{ roomType: "Double", roomCount: 1 }]);
       } else {
         // To minimize cost, we must minimize the total number of rooms (R)
-        // Since max capacity is 3 (Triple), minimum rooms is Math.ceil(totalPeople / 3)
-        const totalRooms = Math.ceil(totalPeople / 3);
+        // Since max capacity is 3 (Triple), minimum rooms is Math.ceil(numAdults / 3)
+        const totalRooms = Math.ceil(numAdults / 3);
         
         // Let D = double rooms, T = triple rooms
         // D + T = totalRooms
-        // 2D + 3T >= totalPeople
-        // 2(totalRooms - T) + 3T >= totalPeople
-        // 2*totalRooms + T >= totalPeople
-        // T >= totalPeople - 2*totalRooms
-        const tripleRoomsCount = Math.max(0, totalPeople - 2 * totalRooms);
+        // 2D + 3T >= numAdults
+        // 2(totalRooms - T) + 3T >= numAdults
+        // 2*totalRooms + T >= numAdults
+        // T >= numAdults - 2*totalRooms
+        const tripleRoomsCount = Math.max(0, numAdults - 2 * totalRooms);
         const doubleRoomsCount = totalRooms - tripleRoomsCount;
 
         const newAllocations: RoomAllocation[] = [];
@@ -82,8 +82,8 @@ const ClientDetailsForm: React.FC = () => {
       }
     }
 
-    prevTotalPeopleRef.current = totalPeople;
-  }, [totalPeople, roomAllocations, setValue]);
+    prevNumAdultsRef.current = numAdults;
+  }, [numAdults, roomAllocations, setValue]);
 
   // Add new room allocation
   const addRoomAllocation = () => {
@@ -375,14 +375,14 @@ const ClientDetailsForm: React.FC = () => {
         <div className="flex items-center justify-between">
           <h4 className="text-base font-medium text-gray-900">Room Allocation</h4>
           <div className="text-sm text-gray-600">
-            Total People: {totalPeople} | Room Capacity: {totalRoomCapacity}
-            {totalRoomCapacity !== totalPeople && (
+            Total People: {totalPeople} (Adults: {numAdults || 0}, Kids: {numChildren || 0}) | Room Capacity: {totalRoomCapacity}
+            {totalRoomCapacity !== numAdults && (
               <span className={`ml-2 px-2 py-1 rounded text-xs ${
-                totalRoomCapacity < totalPeople 
+                totalRoomCapacity < numAdults 
                   ? 'bg-red-100 text-red-800' 
                   : 'bg-yellow-100 text-yellow-800'
               }`}>
-                {totalRoomCapacity < totalPeople ? '⚠️ Under capacity' : '⚠️ Over capacity'}
+                {totalRoomCapacity < numAdults ? '⚠️ Under capacity for adults' : '⚠️ Over capacity for adults'}
               </span>
             )}
           </div>
