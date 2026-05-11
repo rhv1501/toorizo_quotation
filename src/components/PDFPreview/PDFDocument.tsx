@@ -1569,15 +1569,10 @@ const PDFDocument: React.FC<{ data: QuotationData }> = ({ data }) => {
                         </View>
                       ) : (
                         uniqueLocations.map((location, idx) => {
-                          // Alias locations to Ooty for hotel listing
-                          let targetLocation = location.toUpperCase();
-                          if (targetLocation === "CHIKMAGALUR" || targetLocation === "KODAIKANAL" || targetLocation === "WAYANAD") {
-                            targetLocation = "OOTY";
-                          }
                           // Get hotels for this location and package type, avoid duplicates
                           const hotelsForLoc = hotels.filter(
                             (h) =>
-                              h.location.toUpperCase() === targetLocation &&
+                              h.location.toUpperCase() === location.toUpperCase() &&
                               h.packageType === type.toUpperCase()
                           );
                           // Remove duplicate hotel names for this location
