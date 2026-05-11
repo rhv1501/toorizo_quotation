@@ -68,27 +68,7 @@ const TravelCostingForm: React.FC = () => {
     );
   }, [startLocation, endLocation, transportType, daysFormat]);
 
-  // Check if transport type requires manual entry
-  const requiresManualEntry = React.useMemo(() => {
-    const manualEntryTypes = [
-      "12 SEATER",
-      "21 SEATER",
-      "32 SEATER",
-      "50 SEATER",
-    ];
-    return manualEntryTypes.includes(transportType?.toUpperCase() || "");
-  }, [transportType]);
 
-  // Check if tour format is beyond 4N5D
-  const isExtendedTour = React.useMemo(() => {
-    if (!daysFormat) return false;
-    const match = daysFormat.match(/(\d+)\s*Nights?\s*\/\s*(\d+)\s*Days?/i);
-    if (match) {
-      const nights = parseInt(match[1], 10);
-      return nights > 4;
-    }
-    return false;
-  }, [daysFormat]);
 
   // Handle location selection changes
   const handleStartLocationChange = (value: string) => {
@@ -130,17 +110,7 @@ const TravelCostingForm: React.FC = () => {
       return;
     }
 
-    if (requiresManualEntry) {
-      // For seater types, leave base cost empty (0) for manual input
-      setValue("travelCostingDetails.baseTravelCost", 0);
-      return;
-    }
 
-    if (isExtendedTour) {
-      // For extended tours, leave base cost empty (0) for manual input
-      setValue("travelCostingDetails.baseTravelCost", 0);
-      return;
-    }
 
     // Skip auto-calculation if either location is manual
     if (isStartLocationManual || isEndLocationManual) {
@@ -177,10 +147,8 @@ const TravelCostingForm: React.FC = () => {
     transportType,
     daysFormat,
     setValue,
-    isExtendedTour,
     useDummyTransport,
     dummyTransportCost,
-    requiresManualEntry,
     isStartLocationManual,
     isEndLocationManual,
   ]);
@@ -399,9 +367,7 @@ const TravelCostingForm: React.FC = () => {
               min="0"
               className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm ${
                 useDummyTransport ||
-                isExtendedTour ||
-                requiresManualEntry ||
-                (!currentTravelData && !isExtendedTour)
+                !currentTravelData
                   ? ""
                   : "bg-gray-50"
               }`}
@@ -411,20 +377,18 @@ const TravelCostingForm: React.FC = () => {
                   value: 0,
                   message: "Base travel cost cannot be negative",
                 },
-                required: requiresManualEntry
-                  ? "Base travel cost is required for this transport type"
+                required: !currentTravelData && !useDummyTransport
+                  ? "Base travel cost is required"
                   : false,
               })}
               readOnly={
                 !useDummyTransport &&
-                !isExtendedTour &&
-                !requiresManualEntry &&
                 currentTravelData !== null
               }
               placeholder={
                 useDummyTransport
                   ? "Set by DUMMY cost"
-                  : isExtendedTour || requiresManualEntry
+                  : !currentTravelData
                   ? "Enter cost manually"
                   : "0"
               }
@@ -433,10 +397,6 @@ const TravelCostingForm: React.FC = () => {
           <p className="mt-1 text-sm text-gray-500">
             {useDummyTransport
               ? "This value is set by the DUMMY transport cost above"
-              : requiresManualEntry
-              ? "Manual entry required for this transport type"
-              : isExtendedTour
-              ? "Extended tour format detected. Please enter cost manually."
               : currentTravelData
               ? "Automatically calculated based on route and transport type"
               : "No data available for this combination. Please enter cost manually."}

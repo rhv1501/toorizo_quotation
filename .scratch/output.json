@@ -1,0 +1,438 @@
+{
+  "SEDAN": [
+    {
+      "ROUTE": "BANGALORE - OOTY 5N6D",
+      "FINAL COST": 22000
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 6N7D",
+      "FINAL COST": 25500
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 7N8D",
+      "FINAL COST": 29000
+    },
+    {
+      "ROUTE": "BANGALORE - WAYANAD 5N6D",
+      "FINAL COST": 23000
+    },
+    {
+      "ROUTE": "BANGALORE - WAYANAD 6N7D",
+      "FINAL COST": 26500
+    },
+    {
+      "ROUTE": "BANGALORE - WAYANAD 7N8D",
+      "FINAL COST": 30000
+    },
+    {
+      "ROUTE": "WAYANAD - WAYANAD 1N2D",
+      "FINAL COST": 5150
+    },
+    {
+      "ROUTE": "WAYANAD - WAYANAD 2N3D",
+      "FINAL COST": 7650
+    },
+    {
+      "ROUTE": "WAYANAD - WAYANAD 3N4D",
+      "FINAL COST": 10150
+    },
+    {
+      "ROUTE": "COORG - COORG 1N2D",
+      "FINAL COST": 7500
+    },
+    {
+      "ROUTE": "COORG - COORG 2N3D",
+      "FINAL COST": 10500
+    },
+    {
+      "ROUTE": "COORG - COORG 3N4D",
+      "FINAL COST": 13500
+    },
+    {
+      "ROUTE": "COIMBATORE - KODAIKANAL 1N2D",
+      "FINAL COST": 6600
+    },
+    {
+      "ROUTE": "COIMBATORE - KODAIKANAL 2N3D",
+      "FINAL COST": 10000
+    },
+    {
+      "ROUTE": "COIMBATORE - KODAIKANAL 3N4D",
+      "FINAL COST": 12700
+    },
+    {
+      "ROUTE": "CALICUT - WAYANAD 1N2D",
+      "FINAL COST": 7500
+    },
+    {
+      "ROUTE": "CALICUT - WAYANAD 2N3D",
+      "FINAL COST": 11000
+    },
+    {
+      "ROUTE": "CALICUT - WAYANAD 3N4D",
+      "FINAL COST": 15500
+    },
+    {
+      "ROUTE": "KANNUR - WAYANAD 1N2D",
+      "FINAL COST": 8500
+    },
+    {
+      "ROUTE": "KANNUR - WAYANAD 2N3D",
+      "FINAL COST": 12000
+    },
+    {
+      "ROUTE": "KANNUR - WAYANAD 3N4D",
+      "FINAL COST": 16500
+    },
+    {
+      "ROUTE": "BANGALORE - KODAIKANAL 2N3D",
+      "FINAL COST": 17600
+    },
+    {
+      "ROUTE": "BANGALORE - KODAIKANAL 3N4D",
+      "FINAL COST": 18600
+    }
+  ],
+  "SUV": [
+    {
+      "ROUTE": "BANGALORE - OOTY 5N6D",
+      "FINAL COST": 33840
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 6N7D",
+      "FINAL COST": 37340
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 7N8D",
+      "FINAL COST": 40840
+    },
+    {
+      "ROUTE": "BANGALORE - WAYANAD 5N6D",
+      "FINAL COST": 34840
+    },
+    {
+      "ROUTE": "BANGALORE - WAYANAD 6N7D",
+      "FINAL COST": 38340
+    },
+    {
+      "ROUTE": "BANGALORE - WAYANAD 7N8D",
+      "FINAL COST": 41840
+    },
+    {
+      "ROUTE": "WAYANAD - WAYANAD 1N2D",
+      "FINAL COST": 7150
+    },
+    {
+      "ROUTE": "WAYANAD - WAYANAD 2N3D",
+      "FINAL COST": 10650
+    },
+    {
+      "ROUTE": "WAYANAD - WAYANAD 3N4D",
+      "FINAL COST": 14150
+    },
+    {
+      "ROUTE": "COORG - COORG 1N2D",
+      "FINAL COST": 11500
+    },
+    {
+      "ROUTE": "COORG - COORG 2N3D",
+      "FINAL COST": 15500
+    },
+    {
+      "ROUTE": "COORG - COORG 3N4D",
+      "FINAL COST": 19500
+    },
+    {
+      "ROUTE": "COIMBATORE - KODAIKANAL 1N2D",
+      "FINAL COST": 10000
+    },
+    {
+      "ROUTE": "COIMBATORE - KODAIKANAL 2N3D",
+      "FINAL COST": 14500
+    },
+    {
+      "ROUTE": "COIMBATORE - KODAIKANAL 3N4D",
+      "FINAL COST": 19000
+    },
+    {
+      "ROUTE": "CALICUT - WAYANAD 1N2D",
+      "FINAL COST": 10000
+    },
+    {
+      "ROUTE": "CALICUT - WAYANAD 2N3D",
+      "FINAL COST": 14500
+    },
+    {
+      "ROUTE": "CALICUT - WAYANAD 3N4D",
+      "FINAL COST": 19000
+    },
+    {
+      "ROUTE": "KANNUR - WAYANAD 1N2D",
+      "FINAL COST": 11000
+    },
+    {
+      "ROUTE": "KANNUR - WAYANAD 2N3D",
+      "FINAL COST": 15500
+    },
+    {
+      "ROUTE": "KANNUR - WAYANAD 3N4D",
+      "FINAL COST": 20000
+    },
+    {
+      "ROUTE": "BANGALORE - KODAIKANAL 2N3D",
+      "FINAL COST": 23500
+    },
+    {
+      "ROUTE": "BANGALORE - KODAIKANAL 3N4D",
+      "FINAL COST": 25200
+    }
+  ],
+  "12 SEATER TT": [
+    {
+      "ROUTE": "BANGALORE - OOTY 1N2D",
+      "FINAL COST": 22100
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 2N3D",
+      "FINAL COST": 26100
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 3N4D",
+      "FINAL COST": 33400
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 4N5D",
+      "FINAL COST": 38500
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 5N6D",
+      "FINAL COST": 44150
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 6N7D",
+      "FINAL COST": 49800
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 7N8D",
+      "FINAL COST": 55450
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 1N2D",
+      "FINAL COST": 20100
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 2N3D",
+      "FINAL COST": 24100
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 3N4D",
+      "FINAL COST": 31400
+    },
+    {
+      "ROUTE": "COIMBATORE - OOTY 1N2D",
+      "FINAL COST": 15500
+    },
+    {
+      "ROUTE": "COIMBATORE - OOTY 2N3D",
+      "FINAL COST": 19500
+    },
+    {
+      "ROUTE": "COIMBATORE - OOTY 3N4D",
+      "FINAL COST": 24000
+    },
+    {
+      "ROUTE": "COIMBATORE - KODAIKANAL 1N2D",
+      "FINAL COST": 18000
+    },
+    {
+      "ROUTE": "COIMBATORE - KODAIKANAL 2N3D",
+      "FINAL COST": 27000
+    },
+    {
+      "ROUTE": "COIMBATORE - KODAIKANAL 3N4D",
+      "FINAL COST": 34000
+    },
+    {
+      "ROUTE": "BANGALORE - KODAIKANAL 2N3D",
+      "FINAL COST": 40000
+    },
+    {
+      "ROUTE": "BANGALORE - KODAIKANAL 3N4D",
+      "FINAL COST": 43000
+    },
+    {
+      "ROUTE": "DINDIGAL - KODAIKANAL 1N2D",
+      "FINAL COST": 11000
+    },
+    {
+      "ROUTE": "DINDIGAL - KODAIKANAL 2N3D",
+      "FINAL COST": 15000
+    },
+    {
+      "ROUTE": "DINDIGAL - KODAIKANAL 3N4D",
+      "FINAL COST": 18000
+    },
+    {
+      "ROUTE": "METTUPALYAM - OOTY 1N2D",
+      "FINAL COST": 14000
+    },
+    {
+      "ROUTE": "METTUPALYAM - OOTY 2N3D",
+      "FINAL COST": 17500
+    },
+    {
+      "ROUTE": "METTUPALYAM - OOTY 3N4D",
+      "FINAL COST": 21500
+    },
+    {
+      "ROUTE": "OOTY - OOTY 1N2D",
+      "FINAL COST": 7000
+    },
+    {
+      "ROUTE": "OOTY - OOTY 2N3D",
+      "FINAL COST": 10500
+    },
+    {
+      "ROUTE": "OOTY - OOTY 3N4D",
+      "FINAL COST": 15000
+    }
+  ],
+  "21 SEATER MINI BUS": [
+    {
+      "ROUTE": "BANGALORE - OOTY 1N2D",
+      "FINAL COST": 47100
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 2N3D",
+      "FINAL COST": 52900
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 3N4D",
+      "FINAL COST": 63800
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 4N5D",
+      "FINAL COST": 71300
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 5N6D",
+      "FINAL COST": 79650
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 6N7D",
+      "FINAL COST": 88000
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 7N8D",
+      "FINAL COST": 96350
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 1N2D",
+      "FINAL COST": 29100
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 2N3D",
+      "FINAL COST": 34900
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 3N4D",
+      "FINAL COST": 45800
+    },
+    {
+      "ROUTE": "COIMBATORE - OOTY 1N2D",
+      "FINAL COST": 19000
+    },
+    {
+      "ROUTE": "COIMBATORE - OOTY 2N3D",
+      "FINAL COST": 24000
+    },
+    {
+      "ROUTE": "COIMBATORE - OOTY 3N4D",
+      "FINAL COST": 28000
+    }
+  ],
+  "32 SEATER BUS": [
+    {
+      "ROUTE": "BANGALORE - OOTY 1N2D",
+      "FINAL COST": 69350
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 2N3D",
+      "FINAL COST": 76800
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 3N4D",
+      "FINAL COST": 91000
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 4N5D",
+      "FINAL COST": 100700
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 5N6D",
+      "FINAL COST": 111525
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 6N7D",
+      "FINAL COST": 122350
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 7N8D",
+      "FINAL COST": 133175
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 1N2D",
+      "FINAL COST": 37350
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 2N3D",
+      "FINAL COST": 44800
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 3N4D",
+      "FINAL COST": 59000
+    }
+  ],
+  "50 SEATER BUS": [
+    {
+      "ROUTE": "BANGALORE - OOTY 1N2D",
+      "FINAL COST": 86850
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 2N3D",
+      "FINAL COST": 95800
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 3N4D",
+      "FINAL COST": 113000
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 4N5D",
+      "FINAL COST": 124700
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 5N6D",
+      "FINAL COST": 137775
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 6N7D",
+      "FINAL COST": 150850
+    },
+    {
+      "ROUTE": "BANGALORE - OOTY 7N8D",
+      "FINAL COST": 163925
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 1N2D",
+      "FINAL COST": 44850
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 2N3D",
+      "FINAL COST": 53800
+    },
+    {
+      "ROUTE": "BANGALORE - COORG 3N4D",
+      "FINAL COST": 71000
+    }
+  ]
+}

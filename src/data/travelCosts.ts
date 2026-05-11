@@ -13,7 +13,6 @@ export interface TravelCostEntry {
 }
 
 export const travelCostData: TravelCostEntry[] = [
-  // BANGALORE to OOTY - Updated pricing
   { from: "BANGALORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "1N2D", km: 750, bata: 1200, permit: 500, tolls: 1000, perKm: 10, payable: 10200 },
   { from: "BANGALORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "2N3D", km: 900, bata: 1600, permit: 500, tolls: 1200, perKm: 10, payable: 12300 },
   { from: "BANGALORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "3N4D", km: 1200, bata: 2000, permit: 500, tolls: 1500, perKm: 10, payable: 16000 },
@@ -22,8 +21,6 @@ export const travelCostData: TravelCostEntry[] = [
   { from: "BANGALORE", to: "OOTY", vehicleType: "SUV", nightsDay: "2N3D", km: 900, bata: 2000, permit: 1000, tolls: 1200, perKm: 15, addInfo: "NOVA 16RS, CRY", payable: 17700 },
   { from: "BANGALORE", to: "OOTY", vehicleType: "SUV", nightsDay: "3N4D", km: 1200, bata: 2500, permit: 1000, tolls: 1500, perKm: 15, addInfo: "NOVA 16RS, CRY", payable: 23000 },
   { from: "BANGALORE", to: "OOTY", vehicleType: "SUV", nightsDay: "4N5D", km: 1500, bata: 3000, permit: 1000, tolls: 1800, perKm: 15, addInfo: "NOVA 16RS, CRY", payable: 28300 },
-  
-  // BANGALORE to COORG - Updated pricing
   { from: "BANGALORE", to: "COORG", vehicleType: "SEDAN", nightsDay: "1N2D", km: 750, bata: 1200, permit: 0, tolls: 1000, perKm: 10, payable: 9700 },
   { from: "BANGALORE", to: "COORG", vehicleType: "SEDAN", nightsDay: "2N3D", km: 900, bata: 1600, permit: 0, tolls: 1200, perKm: 10, payable: 11800 },
   { from: "BANGALORE", to: "COORG", vehicleType: "SEDAN", nightsDay: "3N4D", km: 1200, bata: 2000, permit: 0, tolls: 1500, perKm: 10, payable: 15500 },
@@ -32,8 +29,6 @@ export const travelCostData: TravelCostEntry[] = [
   { from: "BANGALORE", to: "COORG", vehicleType: "SUV", nightsDay: "2N3D", km: 900, bata: 2000, permit: 1000, tolls: 1200, perKm: 15, addInfo: "NOVA 16RS, CRY", payable: 16700 },
   { from: "BANGALORE", to: "COORG", vehicleType: "SUV", nightsDay: "3N4D", km: 1200, bata: 2500, permit: 1000, tolls: 1500, perKm: 15, addInfo: "NOVA 16RS, CRY", payable: 22000 },
   { from: "BANGALORE", to: "COORG", vehicleType: "SUV", nightsDay: "4N5D", km: 1500, bata: 3000, permit: 1000, tolls: 1800, perKm: 15, addInfo: "NOVA 16RS, CRY", payable: 27300 },
-  
-  // MYSORE to OOTY - Updated pricing
   { from: "MYSORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "1N2D", km: 500, bata: 1050, permit: 500, tolls: 850, perKm: 12, payable: 8400 },
   { from: "MYSORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "2N3D", km: 750, bata: 1400, permit: 500, tolls: 1350, perKm: 12, payable: 12250 },
   { from: "MYSORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "3N4D", km: 1000, bata: 1750, permit: 500, tolls: 1850, perKm: 12, payable: 16100 },
@@ -42,8 +37,6 @@ export const travelCostData: TravelCostEntry[] = [
   { from: "MYSORE", to: "OOTY", vehicleType: "SUV", nightsDay: "2N3D", km: 750, bata: 1600, permit: 1000, tolls: 1350, perKm: 16, payable: 15950 },
   { from: "MYSORE", to: "OOTY", vehicleType: "SUV", nightsDay: "3N4D", km: 1000, bata: 2000, permit: 1000, tolls: 1850, perKm: 16, payable: 20850 },
   { from: "MYSORE", to: "OOTY", vehicleType: "SUV", nightsDay: "4N5D", km: 1250, bata: 2400, permit: 1000, tolls: 2350, perKm: 16, payable: 25750 },
-  
-  // MYSORE to COORG - Updated pricing
   { from: "MYSORE", to: "COORG", vehicleType: "SEDAN", nightsDay: "1N2D", km: 500, bata: 1050, permit: 0, tolls: 850, perKm: 12, payable: 7900 },
   { from: "MYSORE", to: "COORG", vehicleType: "SEDAN", nightsDay: "2N3D", km: 750, bata: 1400, permit: 0, tolls: 1350, perKm: 12, payable: 11750 },
   { from: "MYSORE", to: "COORG", vehicleType: "SEDAN", nightsDay: "3N4D", km: 1000, bata: 1750, permit: 0, tolls: 1850, perKm: 12, payable: 15600 },
@@ -52,24 +45,18 @@ export const travelCostData: TravelCostEntry[] = [
   { from: "MYSORE", to: "COORG", vehicleType: "SUV", nightsDay: "2N3D", km: 750, bata: 1600, permit: 0, tolls: 1350, perKm: 16, payable: 14950 },
   { from: "MYSORE", to: "COORG", vehicleType: "SUV", nightsDay: "3N4D", km: 1000, bata: 2000, permit: 0, tolls: 1850, perKm: 16, payable: 19850 },
   { from: "MYSORE", to: "COORG", vehicleType: "SUV", nightsDay: "4N5D", km: 1250, bata: 2400, permit: 0, tolls: 2350, perKm: 16, payable: 24750 },
-
-  // NEW: COIMBATORE to OOTY
   { from: "COIMBATORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "1N2D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 9200 },
   { from: "COIMBATORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "2N3D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 11300 },
   { from: "COIMBATORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "3N4D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 13900 },
   { from: "COIMBATORE", to: "OOTY", vehicleType: "SUV", nightsDay: "1N2D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 12700 },
   { from: "COIMBATORE", to: "OOTY", vehicleType: "SUV", nightsDay: "2N3D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 15800 },
   { from: "COIMBATORE", to: "OOTY", vehicleType: "SUV", nightsDay: "3N4D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 18900 },
-
-  // NEW: METTUPALAYAM to OOTY
   { from: "METTUPALAYAM", to: "OOTY", vehicleType: "SEDAN", nightsDay: "1N2D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 7700 },
   { from: "METTUPALAYAM", to: "OOTY", vehicleType: "SEDAN", nightsDay: "2N3D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 9300 },
   { from: "METTUPALAYAM", to: "OOTY", vehicleType: "SEDAN", nightsDay: "3N4D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 11400 },
   { from: "METTUPALAYAM", to: "OOTY", vehicleType: "SUV", nightsDay: "1N2D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 9700 },
   { from: "METTUPALAYAM", to: "OOTY", vehicleType: "SUV", nightsDay: "2N3D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 12800 },
   { from: "METTUPALAYAM", to: "OOTY", vehicleType: "SUV", nightsDay: "3N4D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, payable: 15900 },
-
-  // NEW: BANGALORE to WAYANAD
   { from: "BANGALORE", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "1N2D", km: 750, bata: 1200, permit: 500, tolls: 1700, perKm: 10, payable: 10900 },
   { from: "BANGALORE", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "2N3D", km: 900, bata: 1600, permit: 500, tolls: 1900, perKm: 10, payable: 13000 },
   { from: "BANGALORE", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "3N4D", km: 1200, bata: 2000, permit: 500, tolls: 2200, perKm: 10, payable: 16700 },
@@ -78,8 +65,6 @@ export const travelCostData: TravelCostEntry[] = [
   { from: "BANGALORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "2N3D", km: 900, bata: 2000, permit: 1000, tolls: 1900, perKm: 15, payable: 18400 },
   { from: "BANGALORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "3N4D", km: 1200, bata: 2500, permit: 1000, tolls: 2200, perKm: 15, payable: 23700 },
   { from: "BANGALORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "4N5D", km: 1500, bata: 3000, permit: 1000, tolls: 2500, perKm: 15, payable: 29000 },
-
-  // NEW: MYSORE to WAYANAD
   { from: "MYSORE", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "1N2D", km: 500, bata: 1050, permit: 500, tolls: 850, perKm: 12, payable: 8400 },
   { from: "MYSORE", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "2N3D", km: 750, bata: 1400, permit: 500, tolls: 1350, perKm: 12, payable: 12250 },
   { from: "MYSORE", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "3N4D", km: 1000, bata: 1750, permit: 500, tolls: 1850, perKm: 12, payable: 16100 },
@@ -88,8 +73,6 @@ export const travelCostData: TravelCostEntry[] = [
   { from: "MYSORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "2N3D", km: 750, bata: 1600, permit: 1000, tolls: 1350, perKm: 16, payable: 15950 },
   { from: "MYSORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "3N4D", km: 1000, bata: 2000, permit: 1000, tolls: 1850, perKm: 16, payable: 20850 },
   { from: "MYSORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "4N5D", km: 1250, bata: 2400, permit: 1000, tolls: 2350, perKm: 16, payable: 25750 },
-
-  // NEW: OOTY to OOTY (Local transportation within Ooty) - costs from CostingForm without 15% margin
   { from: "OOTY", to: "OOTY", vehicleType: "SEDAN", nightsDay: "1N2D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 2700 },
   { from: "OOTY", to: "OOTY", vehicleType: "SEDAN", nightsDay: "2N3D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 6300 },
   { from: "OOTY", to: "OOTY", vehicleType: "SEDAN", nightsDay: "3N4D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 8400 },
@@ -98,11 +81,117 @@ export const travelCostData: TravelCostEntry[] = [
   { from: "OOTY", to: "OOTY", vehicleType: "SUV", nightsDay: "2N3D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 9300 },
   { from: "OOTY", to: "OOTY", vehicleType: "SUV", nightsDay: "3N4D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 13400 },
   { from: "OOTY", to: "OOTY", vehicleType: "SUV", nightsDay: "4N5D", km: 0, bata: 0, permit: 0, tolls: 0, perKm: 0, addInfo: "Local sightseeing - base cost", payable: 6800 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "5N6D", km: 1700, bata: 2700, permit: 500, tolls: 1800, perKm: 10, payable: 22000 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "6N7D", km: 1950, bata: 3400, permit: 500, tolls: 2100, perKm: 10, payable: 25500 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "SEDAN", nightsDay: "7N8D", km: 2250, bata: 3600, permit: 500, tolls: 2400, perKm: 10, payable: 29000 },
+  { from: "BANGALORE", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "5N6D", km: 1800, bata: 2700, permit: 500, tolls: 1800, perKm: 10, payable: 23000 },
+  { from: "BANGALORE", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "6N7D", km: 2050, bata: 3400, permit: 500, tolls: 2100, perKm: 10, payable: 26500 },
+  { from: "BANGALORE", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "7N8D", km: 2350, bata: 3600, permit: 500, tolls: 2400, perKm: 10, payable: 30000 },
+  { from: "WAYANAD", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "1N2D", km: 350, bata: 1050, permit: 0, tolls: 600, perKm: 10, payable: 5150 },
+  { from: "WAYANAD", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "2N3D", km: 500, bata: 1750, permit: 0, tolls: 900, perKm: 10, payable: 7650 },
+  { from: "WAYANAD", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "3N4D", km: 700, bata: 1950, permit: 0, tolls: 1200, perKm: 10, payable: 10150 },
+  { from: "COORG", to: "COORG", vehicleType: "SEDAN", nightsDay: "1N2D", km: 550, bata: 1400, permit: 0, tolls: 600, perKm: 10, payable: 7500 },
+  { from: "COORG", to: "COORG", vehicleType: "SEDAN", nightsDay: "2N3D", km: 800, bata: 1600, permit: 0, tolls: 900, perKm: 10, payable: 10500 },
+  { from: "COORG", to: "COORG", vehicleType: "SEDAN", nightsDay: "3N4D", km: 1050, bata: 1800, permit: 0, tolls: 1200, perKm: 10, payable: 13500 },
+  { from: "COIMBATORE", to: "KODAIKANAL", vehicleType: "SEDAN", nightsDay: "1N2D", km: 500, bata: 1000, permit: 0, tolls: 600, perKm: 10, payable: 6600 },
+  { from: "COIMBATORE", to: "KODAIKANAL", vehicleType: "SEDAN", nightsDay: "2N3D", km: 750, bata: 1600, permit: 0, tolls: 900, perKm: 10, payable: 10000 },
+  { from: "COIMBATORE", to: "KODAIKANAL", vehicleType: "SEDAN", nightsDay: "3N4D", km: 950, bata: 2000, permit: 0, tolls: 1200, perKm: 10, payable: 12700 },
+  { from: "CALICUT", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "1N2D", km: 550, bata: 1400, permit: 0, tolls: 600, perKm: 10, payable: 7500 },
+  { from: "CALICUT", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "2N3D", km: 850, bata: 1600, permit: 0, tolls: 900, perKm: 10, payable: 11000 },
+  { from: "CALICUT", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "3N4D", km: 1250, bata: 1800, permit: 0, tolls: 1200, perKm: 10, payable: 15500 },
+  { from: "KANNUR", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "1N2D", km: 650, bata: 1400, permit: 0, tolls: 600, perKm: 10, payable: 8500 },
+  { from: "KANNUR", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "2N3D", km: 950, bata: 1600, permit: 0, tolls: 900, perKm: 10, payable: 12000 },
+  { from: "KANNUR", to: "WAYANAD", vehicleType: "SEDAN", nightsDay: "3N4D", km: 1350, bata: 1800, permit: 0, tolls: 1200, perKm: 10, payable: 16500 },
+  { from: "BANGALORE", to: "KODAIKANAL", vehicleType: "SEDAN", nightsDay: "2N3D", km: 1450, bata: 1700, permit: 500, tolls: 900, perKm: 10, payable: 17600 },
+  { from: "BANGALORE", to: "KODAIKANAL", vehicleType: "SEDAN", nightsDay: "3N4D", km: 1500, bata: 1900, permit: 500, tolls: 1200, perKm: 10, payable: 18600 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "SUV", nightsDay: "5N6D", km: 1850, bata: 3290, permit: 1000, tolls: 1800, perKm: 15, payable: 33840 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "SUV", nightsDay: "6N7D", km: 2000, bata: 4240, permit: 1000, tolls: 2100, perKm: 15, payable: 37340 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "SUV", nightsDay: "7N8D", km: 2200, bata: 4440, permit: 1000, tolls: 2400, perKm: 15, payable: 40840 },
+  { from: "BANGALORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "5N6D", km: 1900, bata: 3540, permit: 1000, tolls: 1800, perKm: 15, payable: 34840 },
+  { from: "BANGALORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "6N7D", km: 2100, bata: 3740, permit: 1000, tolls: 2100, perKm: 15, payable: 38340 },
+  { from: "BANGALORE", to: "WAYANAD", vehicleType: "SUV", nightsDay: "7N8D", km: 2250, bata: 4690, permit: 1000, tolls: 2400, perKm: 15, payable: 41840 },
+  { from: "WAYANAD", to: "WAYANAD", vehicleType: "SUV", nightsDay: "1N2D", km: 350, bata: 1300, permit: 0, tolls: 600, perKm: 15, payable: 7150 },
+  { from: "WAYANAD", to: "WAYANAD", vehicleType: "SUV", nightsDay: "2N3D", km: 500, bata: 2250, permit: 0, tolls: 900, perKm: 15, payable: 10650 },
+  { from: "WAYANAD", to: "WAYANAD", vehicleType: "SUV", nightsDay: "3N4D", km: 700, bata: 2450, permit: 0, tolls: 1200, perKm: 15, payable: 14150 },
+  { from: "COORG", to: "COORG", vehicleType: "SUV", nightsDay: "1N2D", km: 650, bata: 1150, permit: 0, tolls: 600, perKm: 15, payable: 11500 },
+  { from: "COORG", to: "COORG", vehicleType: "SUV", nightsDay: "2N3D", km: 850, bata: 1850, permit: 0, tolls: 900, perKm: 15, payable: 15500 },
+  { from: "COORG", to: "COORG", vehicleType: "SUV", nightsDay: "3N4D", km: 1050, bata: 2550, permit: 0, tolls: 1200, perKm: 15, payable: 19500 },
+  { from: "COIMBATORE", to: "KODAIKANAL", vehicleType: "SUV", nightsDay: "1N2D", km: 550, bata: 1150, permit: 0, tolls: 600, perKm: 15, payable: 10000 },
+  { from: "COIMBATORE", to: "KODAIKANAL", vehicleType: "SUV", nightsDay: "2N3D", km: 800, bata: 1600, permit: 0, tolls: 900, perKm: 15, payable: 14500 },
+  { from: "COIMBATORE", to: "KODAIKANAL", vehicleType: "SUV", nightsDay: "3N4D", km: 1050, bata: 2050, permit: 0, tolls: 1200, perKm: 15, payable: 19000 },
+  { from: "CALICUT", to: "WAYANAD", vehicleType: "SUV", nightsDay: "1N2D", km: 550, bata: 1150, permit: 0, tolls: 600, perKm: 15, payable: 10000 },
+  { from: "CALICUT", to: "WAYANAD", vehicleType: "SUV", nightsDay: "2N3D", km: 800, bata: 1600, permit: 0, tolls: 900, perKm: 15, payable: 14500 },
+  { from: "CALICUT", to: "WAYANAD", vehicleType: "SUV", nightsDay: "3N4D", km: 1050, bata: 2050, permit: 0, tolls: 1200, perKm: 15, payable: 19000 },
+  { from: "KANNUR", to: "WAYANAD", vehicleType: "SUV", nightsDay: "1N2D", km: 600, bata: 1400, permit: 0, tolls: 600, perKm: 15, payable: 11000 },
+  { from: "KANNUR", to: "WAYANAD", vehicleType: "SUV", nightsDay: "2N3D", km: 850, bata: 1850, permit: 0, tolls: 900, perKm: 15, payable: 15500 },
+  { from: "KANNUR", to: "WAYANAD", vehicleType: "SUV", nightsDay: "3N4D", km: 1100, bata: 2300, permit: 0, tolls: 1200, perKm: 15, payable: 20000 },
+  { from: "BANGALORE", to: "KODAIKANAL", vehicleType: "SUV", nightsDay: "2N3D", km: 1300, bata: 2100, permit: 1000, tolls: 900, perKm: 15, payable: 23500 },
+  { from: "BANGALORE", to: "KODAIKANAL", vehicleType: "SUV", nightsDay: "3N4D", km: 1350, bata: 2750, permit: 1000, tolls: 1200, perKm: 15, payable: 25200 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "1N2D", km: 900, bata: 2000, permit: 1500, tolls: 600, perKm: 20, payable: 22100 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "2N3D", km: 1050, bata: 2700, permit: 1500, tolls: 900, perKm: 20, payable: 26100 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "3N4D", km: 1350, bata: 3700, permit: 1500, tolls: 1200, perKm: 20, payable: 33400 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "4N5D", km: 1550, bata: 4500, permit: 1500, tolls: 1500, perKm: 20, payable: 38500 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "5N6D", km: 1800, bata: 4850, permit: 1500, tolls: 1800, perKm: 20, payable: 44150 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "6N7D", km: 2000, bata: 6200, permit: 1500, tolls: 2100, perKm: 20, payable: 49800 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "7N8D", km: 2250, bata: 6550, permit: 1500, tolls: 2400, perKm: 20, payable: 55450 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "12 SEATER", nightsDay: "1N2D", km: 900, bata: 1500, permit: 0, tolls: 600, perKm: 20, payable: 20100 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "12 SEATER", nightsDay: "2N3D", km: 1000, bata: 3200, permit: 0, tolls: 900, perKm: 20, payable: 24100 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "12 SEATER", nightsDay: "3N4D", km: 1350, bata: 3200, permit: 0, tolls: 1200, perKm: 20, payable: 31400 },
+  { from: "COIMBATORE", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "1N2D", km: 650, bata: 1900, permit: 0, tolls: 600, perKm: 20, payable: 15500 },
+  { from: "COIMBATORE", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "2N3D", km: 800, bata: 2600, permit: 0, tolls: 900, perKm: 20, payable: 19500 },
+  { from: "COIMBATORE", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "3N4D", km: 950, bata: 3800, permit: 0, tolls: 1200, perKm: 20, payable: 24000 },
+  { from: "COIMBATORE", to: "KODAIKANAL", vehicleType: "12 SEATER", nightsDay: "1N2D", km: 750, bata: 2400, permit: 0, tolls: 600, perKm: 20, payable: 18000 },
+  { from: "COIMBATORE", to: "KODAIKANAL", vehicleType: "12 SEATER", nightsDay: "2N3D", km: 1150, bata: 3100, permit: 0, tolls: 900, perKm: 20, payable: 27000 },
+  { from: "COIMBATORE", to: "KODAIKANAL", vehicleType: "12 SEATER", nightsDay: "3N4D", km: 1450, bata: 3800, permit: 0, tolls: 1200, perKm: 20, payable: 34000 },
+  { from: "BANGALORE", to: "KODAIKANAL", vehicleType: "12 SEATER", nightsDay: "2N3D", km: 1750, bata: 2600, permit: 1500, tolls: 900, perKm: 20, payable: 40000 },
+  { from: "BANGALORE", to: "KODAIKANAL", vehicleType: "12 SEATER", nightsDay: "3N4D", km: 1850, bata: 3300, permit: 1500, tolls: 1200, perKm: 20, payable: 43000 },
+  { from: "DINDIGAL", to: "KODAIKANAL", vehicleType: "12 SEATER", nightsDay: "1N2D", km: 400, bata: 2400, permit: 0, tolls: 600, perKm: 20, payable: 11000 },
+  { from: "DINDIGAL", to: "KODAIKANAL", vehicleType: "12 SEATER", nightsDay: "2N3D", km: 550, bata: 3100, permit: 0, tolls: 900, perKm: 20, payable: 15000 },
+  { from: "DINDIGAL", to: "KODAIKANAL", vehicleType: "12 SEATER", nightsDay: "3N4D", km: 650, bata: 3800, permit: 0, tolls: 1200, perKm: 20, payable: 18000 },
+  { from: "METTUPALYAM", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "1N2D", km: 550, bata: 2400, permit: 0, tolls: 600, perKm: 20, payable: 14000 },
+  { from: "METTUPALYAM", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "2N3D", km: 700, bata: 2600, permit: 0, tolls: 900, perKm: 20, payable: 17500 },
+  { from: "METTUPALYAM", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "3N4D", km: 850, bata: 3300, permit: 0, tolls: 1200, perKm: 20, payable: 21500 },
+  { from: "OOTY", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "1N2D", km: 200, bata: 2400, permit: 0, tolls: 600, perKm: 20, payable: 7000 },
+  { from: "OOTY", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "2N3D", km: 350, bata: 2600, permit: 0, tolls: 900, perKm: 20, payable: 10500 },
+  { from: "OOTY", to: "OOTY", vehicleType: "12 SEATER", nightsDay: "3N4D", km: 500, bata: 3800, permit: 0, tolls: 1200, perKm: 20, payable: 15000 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "21 SEATER", nightsDay: "1N2D", km: 1700, bata: 2000, permit: 2000, tolls: 600, perKm: 25, payable: 47100 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "21 SEATER", nightsDay: "2N3D", km: 1900, bata: 2500, permit: 2000, tolls: 900, perKm: 25, payable: 52900 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "21 SEATER", nightsDay: "3N4D", km: 2300, bata: 3100, permit: 2000, tolls: 1200, perKm: 25, payable: 63800 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "21 SEATER", nightsDay: "4N5D", km: 2550, bata: 4050, permit: 2000, tolls: 1500, perKm: 25, payable: 71300 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "21 SEATER", nightsDay: "5N6D", km: 2850, bata: 4600, permit: 2000, tolls: 1800, perKm: 25, payable: 79650 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "21 SEATER", nightsDay: "6N7D", km: 3100, bata: 6400, permit: 2000, tolls: 2100, perKm: 25, payable: 88000 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "21 SEATER", nightsDay: "7N8D", km: 3400, bata: 6950, permit: 2000, tolls: 2400, perKm: 25, payable: 96350 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "21 SEATER", nightsDay: "1N2D", km: 1050, bata: 2250, permit: 0, tolls: 600, perKm: 25, payable: 29100 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "21 SEATER", nightsDay: "2N3D", km: 1250, bata: 2750, permit: 0, tolls: 900, perKm: 25, payable: 34900 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "21 SEATER", nightsDay: "3N4D", km: 1650, bata: 3350, permit: 0, tolls: 1200, perKm: 25, payable: 45800 },
+  { from: "COIMBATORE", to: "OOTY", vehicleType: "21 SEATER", nightsDay: "1N2D", km: 650, bata: 2150, permit: 0, tolls: 600, perKm: 25, payable: 19000 },
+  { from: "COIMBATORE", to: "OOTY", vehicleType: "21 SEATER", nightsDay: "2N3D", km: 800, bata: 3100, permit: 0, tolls: 900, perKm: 25, payable: 24000 },
+  { from: "COIMBATORE", to: "OOTY", vehicleType: "21 SEATER", nightsDay: "3N4D", km: 950, bata: 3050, permit: 0, tolls: 1200, perKm: 25, payable: 28000 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "32 SEATER BUS", nightsDay: "1N2D", km: 2150, bata: 1750, permit: 2500, tolls: 600, perKm: 30, payable: 69350 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "32 SEATER BUS", nightsDay: "2N3D", km: 2350, bata: 2900, permit: 2500, tolls: 900, perKm: 30, payable: 76800 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "32 SEATER BUS", nightsDay: "3N4D", km: 2800, bata: 3300, permit: 2500, tolls: 1200, perKm: 30, payable: 91000 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "32 SEATER BUS", nightsDay: "4N5D", km: 3100, bata: 3700, permit: 2500, tolls: 1500, perKm: 30, payable: 100700 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "32 SEATER BUS", nightsDay: "5N6D", km: 3400, bata: 5225, permit: 2500, tolls: 1800, perKm: 30, payable: 111525 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "32 SEATER BUS", nightsDay: "6N7D", km: 3750, bata: 5250, permit: 2500, tolls: 2100, perKm: 30, payable: 122350 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "32 SEATER BUS", nightsDay: "7N8D", km: 4050, bata: 6775, permit: 2500, tolls: 2400, perKm: 30, payable: 133175 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "32 SEATER BUS", nightsDay: "1N2D", km: 1150, bata: 2250, permit: 0, tolls: 600, perKm: 30, payable: 37350 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "32 SEATER BUS", nightsDay: "2N3D", km: 1350, bata: 3400, permit: 0, tolls: 900, perKm: 30, payable: 44800 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "32 SEATER BUS", nightsDay: "3N4D", km: 1800, bata: 3800, permit: 0, tolls: 1200, perKm: 30, payable: 59000 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "50 SEATER BUS", nightsDay: "1N2D", km: 2050, bata: 1250, permit: 3000, tolls: 600, perKm: 40, payable: 86850 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "50 SEATER BUS", nightsDay: "2N3D", km: 2250, bata: 1900, permit: 3000, tolls: 900, perKm: 40, payable: 95800 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "50 SEATER BUS", nightsDay: "3N4D", km: 2650, bata: 2800, permit: 3000, tolls: 1200, perKm: 40, payable: 113000 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "50 SEATER BUS", nightsDay: "4N5D", km: 2900, bata: 4200, permit: 3000, tolls: 1500, perKm: 40, payable: 124700 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "50 SEATER BUS", nightsDay: "5N6D", km: 3200, bata: 4975, permit: 3000, tolls: 1800, perKm: 40, payable: 137775 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "50 SEATER BUS", nightsDay: "6N7D", km: 3500, bata: 5750, permit: 3000, tolls: 2100, perKm: 40, payable: 150850 },
+  { from: "BANGALORE", to: "OOTY", vehicleType: "50 SEATER BUS", nightsDay: "7N8D", km: 3800, bata: 6525, permit: 3000, tolls: 2400, perKm: 40, payable: 163925 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "50 SEATER BUS", nightsDay: "1N2D", km: 1050, bata: 2250, permit: 0, tolls: 600, perKm: 40, payable: 44850 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "50 SEATER BUS", nightsDay: "2N3D", km: 1250, bata: 2900, permit: 0, tolls: 900, perKm: 40, payable: 53800 },
+  { from: "BANGALORE", to: "COORG", vehicleType: "50 SEATER BUS", nightsDay: "3N4D", km: 1650, bata: 3800, permit: 0, tolls: 1200, perKm: 40, payable: 71000 },
 ];
 
-export const startLocations = ["BANGALORE", "MYSORE", "COIMBATORE", "METTUPALAYAM", "OOTY"];
-export const endLocations = ["OOTY", "COORG", "WAYANAD"];
-export const vehicleTypes = ["SEDAN", "SUV", "12 SEATER", "21 SEATER", "32 SEATER", "50 SEATER"];
+export const startLocations = ["BANGALORE","MYSORE","COIMBATORE","METTUPALAYAM","OOTY","WAYANAD","COORG","CALICUT","KANNUR","DINDIGAL","METTUPALYAM"];
+export const endLocations = ["OOTY","COORG","WAYANAD","KODAIKANAL"];
+export const vehicleTypes = ["SEDAN","SUV","12 SEATER","21 SEATER","32 SEATER BUS","50 SEATER BUS"];
 
 // Helper function to get travel cost data
 export function getTravelCostData(from: string, to: string, vehicleType: string, nightsDay: string): TravelCostEntry | null {
@@ -124,4 +213,4 @@ export function convertDaysFormatToNightsDay(daysFormat: string): string {
     return `${nights}N${days}D`;
   }
   return "1N2D";
-} 
+}
