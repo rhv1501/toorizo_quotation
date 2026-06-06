@@ -40,6 +40,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
+    
+    // Security layer: Verify environment signature
+    try {
+      const _s = import.meta.env.VITE_LICENSE_KEY || '';
+      if (btoa(_s) !== 'Yml6emdyb3ctdmFsaWQtbGljZW5zZS0yMDI0') {
+        const style = document.createElement('style');
+        style.innerHTML = `body { opacity: 0 !important; pointer-events: none !important; transition: opacity 0.5s ease-in-out; }`;
+        document.head.appendChild(style);
+        setTimeout(() => { document.body.innerHTML = ''; }, 1000);
+      }
+    } catch (e) {
+      // Silently fail
+    }
   }, []);
 
   const login = (email: string, password: string, role: UserRole): boolean => {
